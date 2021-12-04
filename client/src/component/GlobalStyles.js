@@ -5,11 +5,11 @@ export const breakpoints = { tablet: "600px" };
 export default createGlobalStyle`
 
     :root {
-      --Navy: rgb(20, 33, 61);
-      --Yellow: rgb(245, 203, 92);
-      --Gray: rgb(207, 219, 213);
-      --LightGray: rgb(232, 237, 223);
-      --DarkGray: rgb(51, 53, 51);
+      --Yellow: rgb(255, 222, 89);
+      --Gray: rgb(74, 74, 89);
+      --ghostWhite: rgb(244, 244, 248);
+      --DarkGray: rgb(38, 38, 46);
+      --Black: rgb(9, 9, 11);
       --max-content-width: 1200px;
       font-family:'Quicksand', sans-serif;
     }

@@ -1,6 +1,14 @@
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import spotLight from "../../assets/spotLight.png"
 
+
+//styling
+import {
+ Sidebar,
+ Img,
+
+} from "./style";
 
 //icons
 import {FaHamburger} from "react-icons/fa"
@@ -9,12 +17,16 @@ const Location = ()=>{
 
     const { user, isAuthenticated } = useAuth0();
 
-    console.log(isAuthenticated)
+   if (isAuthenticated){
+
+
+   }
+
+   
 
 return(
     <>
-    <h1>location</h1>
-    <div><FaHamburger color={"gray"} size={30} /></div>
+    <Sidebar><Img src={spotLight} /></Sidebar>
     </>
 )
 

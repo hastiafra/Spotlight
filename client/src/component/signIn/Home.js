@@ -15,12 +15,12 @@ import {
   LogIn,
   Icon,
   Rights,
+  Span
 } from "./style";
 
 const Home = () => {
-
   const { loginWithRedirect } = useAuth0();
-  
+
   return (
     <>
       <Overlay />
@@ -38,13 +38,13 @@ const Home = () => {
           Sign in
         </LogIn>
 
-        <LogIn> 
+        <LogIn>
           <Icon>
             <RiUserSearchLine color={"black"} size={30} />
           </Icon>
           Continue as a guest
         </LogIn>
-
+        <Span>To use all the features we recommend to sign in </Span>
         <Rights>© 2021 Hasti Afra. All rights reserved. </Rights>
       </Wrapper>
     </>

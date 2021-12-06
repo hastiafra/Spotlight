@@ -9,9 +9,6 @@ bottom:15px;
 color:var(--Gray);
 
 
-
-
-
 `
 
 
@@ -42,6 +39,32 @@ export const LogIn = styled.button`
    padding-bottom: 10px;
   }
 `;
+
+export const Span = styled.p`
+display: none;
+
+${(LogIn)}:hover + & {
+  display: block;
+  font-size:15px;
+  z-index:20;
+  padding:0px 25px;
+  text-align:center;
+
+  @media (min-width: 780px) {
+   
+    font-size:20px;
+
+
+  }
+
+
+
+}
+
+`
+
+
+
 
 export const Icon = styled.div`
   display: inline-block;
@@ -112,18 +135,19 @@ export const Para = styled.p`
 
   @media (min-width: 780px) {
     font-size: 40px;
-    padding: 40px 60px;
+  
   }
 `;
 
 export const Logo = styled.img`
-  margin-top: 50px;
+  margin-top: 60px;
   height: 100px;
   z-index: 20;
   text-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
   @media (min-width: 780px) {
     height: 200px;
+    margin: 20px 20px 0px;
   }
 `;
 

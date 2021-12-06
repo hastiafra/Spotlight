@@ -11,7 +11,7 @@ import Location from "./location/Location";
 const App = () =>{
   return (
     
-    <BrowserRouter>
+    <>
       <GlobalStyles />
       <div>
         <Switch>
@@ -26,7 +26,7 @@ const App = () =>{
           </Route> 
         </Switch>
       </div>
-    </BrowserRouter>
+    </>
   
   );
 };

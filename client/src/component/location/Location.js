@@ -1,37 +1,57 @@
-import React from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import spotLight from "../../assets/spotLight.png"
+import React, { useState, useContext, useEffect } from "react";
 
+import { SignedInUserContext } from "../SignedInUserContext";
+
+import { useAuth0 } from "@auth0/auth0-react";
+import spotLight from "../../assets/spotLight.png";
 
 //styling
-import {
- Sidebar,
- Img,
+import { Sidebar, Img } from "./style";
 
-} from "./style";
+const Location = () => {
+  const { signedInUser, setSignedInUser } = useContext(SignedInUserContext);
 
-//icons
-import {FaHamburger} from "react-icons/fa"
+  const { user, isAuthenticated } = useAuth0();
 
-const Location = ()=>{
+  //   if (user) {
+  //     console.log(user["https://example.com/geoip"].city_name);
+  //     console.log(user);
+  //     console.log(Object.keys(user));
+  //   }
 
-    const { user, isAuthenticated } = useAuth0();
+  useEffect(() => {
+    if (isAuthenticated) {
+      setSignedInUser({
+        firstName: user?.given_name,
+        lastName: user.family_name,
+        email: user.email,
+        city: user["https://example.com/geoip"].city_name,
+        country: user["https://example.com/geoip"].country_name,
+      });
+    }
+  }, [user]);
 
-   if (isAuthenticated){
-
-
-   }
-
-   
-
-return(
+  return (
     <>
-    <Sidebar><Img src={spotLight} /></Sidebar>
+      <Sidebar>
+        <Img src={spotLight} />
+      </Sidebar>
+      {isAuthenticated ? (
+        <p>Hello {signedInUser.firstName} !</p>
+      ) : (
+        <p> Hello guest user!</p>
+      )}
+
+      {isAuthenticated ? (
+        <p>
+          Your current city is {user["https://example.com/geoip"].city_name} in {user["https://example.com/geoip"].country_name}.
+        </p>
+      ) : (
+        <p> Please select your current city and country: </p>
+      )}
+    
     </>
-)
+  );
+};
 
-
-
-}
-
-export default Location
+export default Location;

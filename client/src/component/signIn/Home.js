@@ -21,6 +21,7 @@ import {
 const Home = () => {
   const { loginWithRedirect } = useAuth0();
 
+  console.log(process.env)
   return (
     <>
       <Overlay />

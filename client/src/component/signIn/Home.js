@@ -18,7 +18,9 @@ import {
 } from "./style";
 
 const Home = () => {
+
   const { loginWithRedirect } = useAuth0();
+  
   return (
     <>
       <Overlay />
@@ -39,7 +41,7 @@ const Home = () => {
         <LogIn> 
           <Icon>
             <RiUserSearchLine color={"black"} size={30} />
-          </Icon>{" "}
+          </Icon>
           Continue as a guest
         </LogIn>
 

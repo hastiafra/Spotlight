@@ -13,6 +13,16 @@ export const Nav = styled(NavLink)`
   text-decoration: none;
   padding: 45px;
   font-size: 20px;
+  font-weight: 700;
+  
+  &:hover {
+    transition: 300ms ease;
+    color: var(--Yellow);
+    padding-bottom: 40px;
+  
+}
+
+
 `;
 
 export const Img = styled.img`
@@ -22,11 +32,15 @@ export const Img = styled.img`
 
   @media (min-width: 780px) {
     display: inline-block;
+    position:absolute;
+    right: -14px;
+    top: -12px;
   }
 `;
 
 export const Wrapper = styled.div`
   display: none;
+
 
   @media (min-width: 780px) {
     display: flex;
@@ -37,10 +51,12 @@ export const Wrapper = styled.div`
     min-height: 15vh;
     border-radius: 110px;
     margin: 50px;
-    background-color: gray;
+    background-color: var( --Gray);
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     align-content: center;
     flex-direction: row-reverse;
+   
+    
   }
 `;

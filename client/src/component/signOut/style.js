@@ -12,7 +12,7 @@ export const LogOutButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    transition: all 0.2s ease-in-out;
+    transition: 0.2s ease-in-out;
     transform: scale(1.1);
     border-bottom: dotted 3px var(--Yellow);
     padding-bottom: 10px;
@@ -26,7 +26,7 @@ export const LogOutButton = styled.button`
     transform: none;
     border-bottom:none;
     color: var(--Yellow);
-    padding-bottom: 10px;
+    padding-bottom: 40px;
 }
 
 

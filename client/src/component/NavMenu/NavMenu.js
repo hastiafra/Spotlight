@@ -12,17 +12,20 @@ import {Img, Wrapper, Nav, Container} from "./style"
 const NavMenu = () =>{
 
 
-return(<Wrapper>
-    <Img src={spotLight}/>
+return(
+<>
 
-<Container>
+<Wrapper>
+    <Container>
+<Img src={spotLight}/>
+</Container>
     <Nav to={"/profile"}>Profile</Nav>
       <Nav to={"/search"}>Search</Nav>
       <p><SignOut/></p>
       <Nav to={"/about"}>About</Nav>
-</Container>
-   </Wrapper>
 
+   </Wrapper>
+</>
 
 )
 

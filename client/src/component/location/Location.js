@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { SignedInUserContext } from "../SignedInUserContext";
 
@@ -8,8 +8,15 @@ import spotLight from "../../assets/spotLight.png";
 //styling
 import { Sidebar, Img } from "./style";
 
+//children
+import PhoneMenu from "../phoneMenu/PhoneMenu";
+
 const Location = () => {
+    
   const { signedInUser, setSignedInUser } = useContext(SignedInUserContext);
+
+
+  const [opened, setOpened] = useState(false);
 
   const { user, isAuthenticated } = useAuth0();
 
@@ -31,11 +38,17 @@ const Location = () => {
     }
   }, [user]);
 
+ 
+
   return (
     <>
-      <Sidebar>
+      <Sidebar onClick={() => {setOpened(!opened)}}>
         <Img src={spotLight} />
       </Sidebar>
+
+      {opened? <PhoneMenu opened={opened} setOpened={setOpened}  />:null }
+
+
       {isAuthenticated ? (
         <p>Hello {signedInUser.firstName} !</p>
       ) : (

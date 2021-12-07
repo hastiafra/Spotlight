@@ -1,18 +1,12 @@
 import styled from "styled-components";
 import network from "../../assets/signIn.jpg";
 
-
-export const Rights =styled.p`
-margin-top:40px;
-position:absolute;
-bottom:15px;
-color:var(--Gray);
-
-
-`
-
-
-
+export const Rights = styled.p`
+  margin-top: 40px;
+  position: absolute;
+  bottom: 15px;
+  color: var(--Gray);
+`;
 
 export const LogIn = styled.button`
   background: none;
@@ -23,48 +17,35 @@ export const LogIn = styled.button`
   font-weight: 700;
   margin: 20px;
   font-size: 18px;
-  padding-left:15px;
-
+  padding-left: 15px;
 
   @media (min-width: 780px) {
     font-size: 30px;
-
   }
 
-  transition: 200ms ease; 
+  transition: 200ms ease;
 
   &:hover {
-  
     border-bottom: solid 5px var(--Yellow);
-   padding-bottom: 10px;
+    padding-bottom: 10px;
   }
 `;
 
 export const Span = styled.p`
-display: none;
+  display: none;
 
-${(LogIn)}:hover + & {
-  display: block;
-  font-size:15px;
-  z-index:20;
-  padding:0px 25px;
-  text-align:center;
+  ${LogIn}:hover + & {
+    display: block;
+    font-size: 15px;
+    z-index: 20;
+    padding: 0px 25px;
+    text-align: center;
 
-  @media (min-width: 780px) {
-   
-    font-size:20px;
-
-
+    @media (min-width: 780px) {
+      font-size: 20px;
+    }
   }
-
-
-
-}
-
-`
-
-
-
+`;
 
 export const Icon = styled.div`
   display: inline-block;
@@ -135,7 +116,6 @@ export const Para = styled.p`
 
   @media (min-width: 780px) {
     font-size: 40px;
-  
   }
 `;
 

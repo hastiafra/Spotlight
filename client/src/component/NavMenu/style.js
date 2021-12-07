@@ -8,6 +8,28 @@ export const Container = styled.div`
   align-content: center;
 `;
 
+
+export const SignIn = styled.button`
+
+background:none;
+border: none;
+font-weight: 700;
+font-size: 20px;
+color: var(--ghostWhite);
+padding: 45px;
+cursor: pointer;
+
+&:hover {
+  transition: 300ms ease;
+  transform: none;
+  border-bottom:none;
+  color: var(--Yellow);
+  padding-bottom: 40px;
+}
+
+
+`
+
 export const Nav = styled(NavLink)`
   color: var(--ghostWhite);
   text-decoration: none;
@@ -21,7 +43,6 @@ export const Nav = styled(NavLink)`
     padding-bottom: 40px;
   
 }
-
 
 `;
 

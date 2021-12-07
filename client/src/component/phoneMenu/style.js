@@ -2,6 +2,25 @@ import styled from "styled-components";
 
 import { useHistory, NavLink } from "react-router-dom";
 
+export const SignIn = styled.button`
+
+color:var(--ghostWhite);
+background:none;
+border: none;
+font-size:20px;
+font-weight: 700;
+padding:45px;
+cursor: pointer;
+
+&:hover {
+  transition: all 0.2s ease-in-out;
+  transform: scale(1.1);
+  border-bottom: dotted 3px var(--Yellow);
+  padding-bottom: 10px;
+
+`
+
+
 export const NavMenu = styled(NavLink)`
   color:var(--ghostWhite);
   text-decoration:none;

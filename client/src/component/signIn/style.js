@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import network from "../../assets/signIn.jpg";
+import { NavLink } from "react-router-dom";
 
 export const Rights = styled.p`
   margin-top: 40px;
@@ -7,6 +8,7 @@ export const Rights = styled.p`
   bottom: 15px;
   color: var(--Gray);
 `;
+
 
 export const LogIn = styled.button`
   background: none;

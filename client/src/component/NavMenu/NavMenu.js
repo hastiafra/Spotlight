@@ -1,17 +1,22 @@
 import React from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import spotLight from "../../assets/spotLight.png"
 
 //children
 import SignOut from "../signOut/SignOut"
 
+
 //styling
-import {Img, Wrapper, Nav, Container} from "./style"
+import {Img, Wrapper, Nav, Container, SignIn} from "./style"
+
 
 
 const NavMenu = () =>{
 
+    const {isAuthenticated,  loginWithRedirect } = useAuth0();
 
+    
 return(
 <>
 
@@ -19,9 +24,10 @@ return(
     <Container>
 <Img src={spotLight}/>
 </Container>
-    <Nav to={"/profile"}>Profile</Nav>
+    {isAuthenticated? <Nav to={"/profile"}>Profile</Nav> : null}
       <Nav to={"/search"}>Search</Nav>
-      <p><SignOut/></p>
+     {isAuthenticated? <SignOut/> : 
+     <SignIn onClick={() => loginWithRedirect()}> Sign in</SignIn>} 
       <Nav to={"/about"}>About</Nav>
 
    </Wrapper>

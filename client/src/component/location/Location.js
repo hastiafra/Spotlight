@@ -6,7 +6,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import spotLight from "../../assets/spotLight.png";
 
 //styling
-import { Sidebar, ImgMobile} from "./style";
+import { Sidebar, ImgMobile, Para} from "./style";
 
 //children
 import PhoneMenu from "../phoneMenu/PhoneMenu";
@@ -59,13 +59,13 @@ const Location = () => {
       {isAuthenticated ? (
         <p>Hello {signedInUser.firstName} !</p>
       ) : (
-        <p> Hello guest user!</p>
+        <Para> Hello guest user!</Para>
       )}
 
       {isAuthenticated ? (
-        <p>
+        <Para>
           Your current city is {user["https://example.com/geoip"].city_name} in {user["https://example.com/geoip"].country_name}.
-        </p>
+        </Para>
       ) : (
         <p> Please select your current city and country: </p>
       )}

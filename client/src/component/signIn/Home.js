@@ -1,6 +1,7 @@
 import React from "react";
 import spotLight from "../../assets/spotLight.png";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useHistory } from "react-router-dom";
 
 //icons
 import { RiUserFollowLine, RiUserSearchLine } from "react-icons/ri";
@@ -19,6 +20,8 @@ import {
 } from "./style";
 
 const Home = () => {
+
+  let history = useHistory();
   const { loginWithRedirect } = useAuth0();
 
   console.log(process.env)
@@ -39,7 +42,7 @@ const Home = () => {
           Sign in
         </LogIn>
 
-        <LogIn>
+        <LogIn onClick={()=>{history.push("/location")}}>
           <Icon>
             <RiUserSearchLine color={"black"} size={30} />
           </Icon>

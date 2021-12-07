@@ -6,10 +6,12 @@ import { useAuth0 } from "@auth0/auth0-react";
 import spotLight from "../../assets/spotLight.png";
 
 //styling
-import { Sidebar, Img } from "./style";
+import { Sidebar, ImgMobile} from "./style";
 
 //children
 import PhoneMenu from "../phoneMenu/PhoneMenu";
+import NavMenu from "../NavMenu/NavMenu";
+
 
 const Location = () => {
     
@@ -43,10 +45,15 @@ const Location = () => {
   return (
     <>
       <Sidebar onClick={() => {setOpened(!opened)}}>
-        <Img src={spotLight} />
+        <ImgMobile src={spotLight} />
       </Sidebar>
 
       {opened? <PhoneMenu opened={opened} setOpened={setOpened}  />:null }
+
+      <NavMenu/>
+      
+
+
 
 
       {isAuthenticated ? (

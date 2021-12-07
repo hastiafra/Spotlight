@@ -10,11 +10,30 @@ export const LogOutButton = styled.button`
   font-weight: 700;
   font-size: 20px;
   cursor: pointer;
+
   &:hover {
     transition: all 0.2s ease-in-out;
     transform: scale(1.1);
-    border-bottom: solid 3px var(--Yellow);
+    border-bottom: dotted 3px var(--Yellow);
     padding-bottom: 10px;
+}
 
 
-}`
+@media (min-width: 780px) {
+
+  &:hover {
+    transition: 300ms ease;
+    transform: none;
+    border-bottom:none;
+    color: var(--Yellow);
+    padding-bottom: 10px;
+}
+
+
+
+}
+
+
+
+
+`

@@ -11,7 +11,7 @@ export const NavMenu = styled(NavLink)`
   &:hover {
     transition: all 0.2s ease-in-out;
     transform: scale(1.1);
-    border-bottom: solid 3px var(--Yellow);
+    border-bottom: dotted 3px var(--Yellow);
     padding-bottom: 10px;
     
 }
@@ -45,8 +45,9 @@ export const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  
 
   @media (min-width: 780px) {
-    display: none;
+   display:none;
   }
 `;

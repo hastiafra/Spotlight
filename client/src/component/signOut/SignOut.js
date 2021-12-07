@@ -11,7 +11,7 @@ const SignOut = () => {
       <LogOutButton
         onClick={() => logout({ returnTo: window.location.origin })}
       >
-        Log Out
+        Logout
       </LogOutButton>
     )
   );

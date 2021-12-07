@@ -4,7 +4,7 @@ import React from "react";
 import SignOut from "../signOut/SignOut"
 
 //styling
-import { Wrapper, Xwrapper, NavMenu} from "./style";
+import { Wrapper, Xwrapper, NavMenu, LogOut} from "./style";
 
 //icon
 import { RiCloseFill } from "react-icons/ri";
@@ -28,7 +28,7 @@ const PhoneMenu = ({opened, setOpened}) => {
 
       <NavMenu to={"/profile"}>Profile</NavMenu>
       <NavMenu to={"/search"}>Search</NavMenu>
-      <p><SignOut/></p>
+      <SignOut/>
       <NavMenu to={"/about"}>About</NavMenu>
     </Wrapper> :null}
     </>

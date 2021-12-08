@@ -2,6 +2,9 @@ import styled from "styled-components";
 
 
 
+
+
+
 export const Label = styled.label`
 margin: 150px 20px 10px;
 text-align:center;
@@ -17,7 +20,7 @@ font-weight:700;
 
 
 export const Para = styled.p`
-margin: 150px 20px 10px;
+margin: 50px 20px 10px;
 text-align:center;
 font-weight:700;
 
@@ -35,6 +38,7 @@ export const ImgMobile = styled.img`
   display: inline-block;
   right: 50px;
   top: 50px;
+  z-index:99;
 
   transition: 300ms ease;
 

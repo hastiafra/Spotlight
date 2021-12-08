@@ -56,6 +56,7 @@ export const Img = styled.img`
     position:absolute;
     right: -14px;
     top: -12px;
+    z-index:99;
   }
 `;
 
@@ -65,18 +66,19 @@ export const Wrapper = styled.div`
 
   @media (min-width: 780px) {
     display: flex;
+    top:0;
     position: sticky;
-    right: 100px;
     min-width: 70vw;
     flex-direction: row;
     min-height: 15vh;
     border-radius: 110px;
-    margin: 50px;
+    margin:20px 70px;
     background-color: var( --Gray);
     align-items: center;
     justify-content: center;
     align-content: center;
     flex-direction: row-reverse;
+    z-index:99;
    
     
   }

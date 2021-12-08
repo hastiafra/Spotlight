@@ -7,7 +7,7 @@ import { GoogleMap, useJsApiLoader, useLoadScript } from '@react-google-maps/api
 /* global google */
 
 
-const Map = () =>{
+const Map = ({location}) =>{
 
     const [map, setMap] = useState(null)
 
@@ -29,8 +29,6 @@ if (!isLoaded) {
 }
 return(
 <>
-<h1>map</h1>
-
 <GoogleMap mapContainerStyle = {mapContainerStyle} zoom={1} center={{lat:0 , lng:0}}/>
 
 </>

@@ -1,5 +1,21 @@
 import styled from "styled-components";
 
+
+
+export const Label = styled.label`
+margin: 150px 20px 10px;
+text-align:center;
+font-weight:700;
+
+@media (min-width: 780px) {
+  margin: 10px 20px 10px;
+  font-size:20px;
+  }
+  
+
+`
+
+
 export const Para = styled.p`
 margin: 150px 20px 10px;
 text-align:center;

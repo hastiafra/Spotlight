@@ -1,6 +1,35 @@
 import styled from "styled-components";
 
 
+
+export const Search = styled.button`
+
+background-color: gray;
+cursor: pointer;
+padding: 10px 30px;
+margin:15px;
+border-radius: 10px;
+border: none;
+box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+color:var(--Yellow);
+font-family: "Righteous", cursive;
+
+transition: 500ms ease;
+
+&:hover {
+  background: black;
+  box-shadow: none;
+  color: var(--Yellow);
+}
+
+`
+
+
+
+
+
+
+
 export const Submit = styled.button`
 
 background-color: var(--DarkGray);

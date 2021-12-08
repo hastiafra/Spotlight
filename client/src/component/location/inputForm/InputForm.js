@@ -7,29 +7,40 @@ import Map from "../../map/Map";
 
 
 //styling
-import {Para, Wrapper, Input, Label, Span,Text, Num, Container, Form, MapLabel, Submit} from "./style"
+import {Para, Wrapper, Input, Label, Span,Text, Num, Container, Form, MapLabel, Submit, Search} from "./style"
 
 
 
 
 
-const InputForm = () => {
+const InputForm = ({isLoaded}) => {
+
   const { user, isAuthenticated } = useAuth0();
 
   const [characters, setCharacters] = useState(70);
 
+  const [userInput, setUserInput] = useState("");
 
-  const [location, setLocation] = useState({ city: "", country: "" });
+  const [location, setLocation] = 
+  
+  useState({ city: "", country: "" });
+
+  const [confirmLoc, setConfirmLoc] = useState(false);
+
+  const handleConfirm = () =>{
+    localStorage.setItem("location", JSON.stringify(location));
+    setConfirmLoc(!confirmLoc);
+  }
 
   const getLocation = (ev, key) => {
     setLocation({ ...location, [key]: ev.target.value });
   };
 
-  console.log(location)
+  // console.log(location)
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
-    localStorage.setItem("location", JSON.stringify(location));
+    
   };
 
 
@@ -48,7 +59,7 @@ const InputForm = () => {
         ) : (
          
           <Wrapper>
-            <Para>Enter your current location: </Para>
+            <Para>Enter your current location</Para>
             <label> City: </label>
             <Input
               type="text"
@@ -67,6 +78,7 @@ const InputForm = () => {
               value={location.country}
               required
               />
+              <Search onClick={handleConfirm} type="click">Search</Search>
             </Wrapper>
       
         )}
@@ -76,7 +88,8 @@ const InputForm = () => {
                 Select the location on map
               </MapLabel>
         
-        <Map location={location}/>
+        <Map confirmLoc={confirmLoc} isLoaded={isLoaded}/>
+
         <Label>Enter relevant keywords and separate them with commas ","
           <Span>E.g. restaurant, sushi, all you can eat </Span>
         </Label>

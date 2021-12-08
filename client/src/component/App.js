@@ -7,6 +7,7 @@ import GlobalStyles from "./GlobalStyles";
 import Home from "./signIn/Home";
 import Location from "./location/Location";
 import Loading from "./Loading";
+import Search from "./search/Search";
 
 
 const App = () =>{
@@ -19,9 +20,9 @@ const App = () =>{
           <Route exact path="/">
             <Home/>
           </Route>
-           {/* <Route path="/loading" >
-            <Loading />
-          </Route> */}
+           <Route path="/search" >
+            <Search />
+          </Route>
           <Route path="/location">
             <Location/>
           </Route> 

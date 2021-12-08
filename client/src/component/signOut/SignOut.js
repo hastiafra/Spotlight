@@ -3,6 +3,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 //styling
 import { LogOutButton } from "./style";
+
+
 const SignOut = () => {
   const { logout, isAuthenticated } = useAuth0();
 

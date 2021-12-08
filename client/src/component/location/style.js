@@ -25,7 +25,7 @@ text-align:center;
 font-weight:700;
 
 @media (min-width: 780px) {
-margin: 10px 20px 10px;
+margin: 50px 0px 0px;
 font-size:20px;
 }
 

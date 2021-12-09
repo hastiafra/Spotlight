@@ -29,10 +29,14 @@ const Location = () => {
 
   const { city, country } = location;
 
+
+  const libraries = ["places"];
+
   const { user, isAuthenticated } = useAuth0();
 
-  const { isLoaded, loadError } = useLoadScript({
+  const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    libraries
   });
 
   useEffect(() => {

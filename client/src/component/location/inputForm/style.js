@@ -144,8 +144,24 @@ export const Wrapper = styled.div`
 export const Input = styled.input`
   display: inline-block;
   margin: 20px;
+  border: none;
+  border-bottom: solid;
+  background-color:white;
+  font-family: "Quicksand", sans-serif;
+  font-size: 15px;
+
+
+  &:focus{
+    border: none;
+    background-color:var(--Yellow)
+  }
+  &:active{
+    border: none;
+    background-color:white;
+  }
 
   @media (min-width: 780px) {
-    margin:5px;
+    margin:20px;
+
   }
 `;

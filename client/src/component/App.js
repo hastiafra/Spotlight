@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import GlobalStyles from "./GlobalStyles";
 
@@ -11,6 +11,10 @@ import Search from "./search/Search";
 
 
 const App = () =>{
+  
+ //phoneNavBar
+  const [opened, setOpened] = useState(false);
+
   return (
     
     <>
@@ -21,10 +25,10 @@ const App = () =>{
             <Home/>
           </Route>
            <Route path="/search" >
-            <Search />
+            <Search opened={opened} setOpened={setOpened} />
           </Route>
           <Route path="/location">
-            <Location/>
+            <Location opened={opened} setOpened={setOpened} />
           </Route> 
         </Switch>
       </div>

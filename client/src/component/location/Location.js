@@ -8,6 +8,7 @@ import {
   useJsApiLoader,
   useLoadScript,
 } from "@react-google-maps/api";
+
 import spotLight from "../../assets/spotLight.png";
 
 //styling
@@ -19,15 +20,13 @@ import NavMenu from "../NavMenu/NavMenu";
 import InputForm from "./inputForm/InputForm";
 import Loading from "../Loading";
 
-const Location = () => {
+const Location = ({opened, setOpened}) => {
   const { signedInUser, setSignedInUser } = useContext(SignedInUserContext);
 
-  //navigation
-  const [opened, setOpened] = useState(false);
+ 
 
   const [location, setLocation] = useState({ city: "", country: "" });
 
-  const { city, country } = location;
 
 
   const libraries = ["places"];
@@ -51,10 +50,7 @@ const Location = () => {
     }
   }, [user]);
 
-  useEffect(() => {
-    localStorage.setItem("location", JSON.stringify(location));
-  }, [location]);
-
+ 
   if (!isLoaded) {
     return <Loading />;
   } else {

@@ -2,6 +2,21 @@ import styled from "styled-components";
 
 
 
+
+export const MapWrapper = styled.div`
+
+background-color: rgb(74, 74, 89);
+display:flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+border-radius:60px 60px 60px 60px;
+margin:20px 0px;
+padding-button:20px;
+
+`
+
+
 export const Search = styled.button`
 
 background-color: gray;
@@ -65,7 +80,8 @@ padding: 10px 20px;
 `;
 
 export const MapLabel = styled(Label)`
-padding: 15px 0px 10px;
+padding: 10px 0px 5px;
+color: var(--ghostWhite);
 `
 export const Span = styled.span`
   text-align: center;
@@ -149,6 +165,8 @@ export const Input = styled.input`
   background-color:white;
   font-family: "Quicksand", sans-serif;
   font-size: 15px;
+
+ padding:10px;
 
 
   &:focus{

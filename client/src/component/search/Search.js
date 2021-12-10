@@ -1,18 +1,45 @@
 import React, { useContext, useEffect, useState } from "react";
 
-
 //auth0
 import { useAuth0 } from "@auth0/auth0-react";
 
-const Search = () =>{
-    const { user, isAuthenticated } = useAuth0();
+//children
+import NavMenu from "../NavMenu/NavMenu";
+import PhoneMenu from "../phoneMenu/PhoneMenu";
+import spotLight from "../../assets/spotLight.png";
 
-return(
-<h1>search</h1>
+//styling
+import { Sidebar, ImgMobile, Input, Wrapper, H1 } from "./style";
 
-)
+const Search = ({ opened, setOpened }) => {
+  const { user, isAuthenticated } = useAuth0();
 
+  return (
+    <>
+      <NavMenu search={true} />
+      <Sidebar
+        onClick={() => {
+          setOpened(!opened);
+        }}
+      >
+        <ImgMobile src={spotLight} />
+      </Sidebar>
 
-}
+      {opened ? (
+        <PhoneMenu opened={opened} setOpened={setOpened} search={true} />
+      ) : null}
+      <Wrapper>
+    <H1>What are you looking for?</H1>
+        <Input
+          type="text"
+          placeholder="Search for keywords"
+          aria-label="Search Wearable Sync Store"
+        />
 
-export default Search
+        
+      </Wrapper>
+    </>
+  );
+};
+
+export default Search;

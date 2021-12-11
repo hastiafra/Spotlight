@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, } from "react";
+
 
 import { useAuth0 } from "@auth0/auth0-react";
 
-import spotMarker from "../../assets/spotMarker.png";
+import spotMarker from "../../assets/spotMarker.png"
+
 
 //map
-import { GoogleMap, Marker } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  Marker,
+} from "@react-google-maps/api";
 import mapStyles from "./mapStyles";
 
 import Geocode from "react-geocode";
@@ -13,19 +18,21 @@ import Geocode from "react-geocode";
 /* eslint-disable no-undef */
 /* global google */
 
-const Map = ({ confirmLoc, spot, setSpot }) => {
+const Map = ({ confirmLoc, spot, setSpot}) => {
+
   Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
 
   const { user, isAuthenticated } = useAuth0();
 
   const [location, setLocation] = useState({ lat: 0, lng: 0 });
 
+
   useEffect(() => {
     if (!isAuthenticated) {
       const location = JSON.parse(localStorage.getItem("location"));
 
-      let city = location.city;
-      let country = location.country;
+      let city = location?.city;
+      let country = location?.country;
 
       Geocode.fromAddress(city + country).then(
         (response) => {
@@ -41,6 +48,7 @@ const Map = ({ confirmLoc, spot, setSpot }) => {
   }, [confirmLoc]);
 
   useEffect(() => {
+
     if (isAuthenticated) {
       let lat = user["https://example.com/geoip"].latitude;
       let lng = user["https://example.com/geoip"].longitude;
@@ -75,6 +83,7 @@ const Map = ({ confirmLoc, spot, setSpot }) => {
 
   return (
     <>
+     
       <GoogleMap
         onClick={onMapClick}
         mapContainerStyle={mapContainerStyle}
@@ -82,18 +91,19 @@ const Map = ({ confirmLoc, spot, setSpot }) => {
         center={location}
         options={options}
       >
-        <Marker
-          position={{ lat: spot.lat, lng: spot.lng }}
-          icon={{
-            url: `${spotMarker}`,
-            scaledSize: new window.google.maps.Size(25, 30),
-            origin: new window.google.maps.Point(0, 0),
-            anchor: new window.google.maps.Point(12, 25),
-          }}
-          animation={google.maps.Animation.BOUNCE}
-          draggable={true}
-        />
-        ;
+          <Marker
+            position={{ lat: spot.lat, lng: spot.lng }}
+            icon={{
+              url:`${spotMarker}`,
+              scaledSize:new window.google.maps.Size(25,30),
+              origin: new window.google.maps.Point(0,0),
+              anchor: new window.google.maps.Point(12,25),
+            }}
+             animation={google.maps.Animation.BOUNCE}
+             draggable={true}
+
+          />;
+  
       </GoogleMap>
     </>
   );

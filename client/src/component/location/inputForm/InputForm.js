@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { SignedInUserContext } from "../../SignedInUserContext";
 import { AnonymousUserContext } from "../../AnonymousUserContext";
@@ -27,7 +27,13 @@ import {
   Search,
 } from "./style";
 
+import { useHistory } from "react-router-dom";
+
+
 const InputForm = ({ isLoaded }) => {
+
+  let history = useHistory();
+
   const { user, isAuthenticated } = useAuth0();
 
   const [characters, setCharacters] = useState(70);
@@ -41,6 +47,7 @@ const InputForm = ({ isLoaded }) => {
   const [spot, setSpot] = useState("");
 
   const { setSignedInUser, signedInUser } = useContext(SignedInUserContext);
+
   const { setAnonymousUser, anonymousUser } = useContext(AnonymousUserContext);
 
   const handleConfirm = (ev) => {
@@ -69,15 +76,43 @@ const InputForm = ({ isLoaded }) => {
     );
   };
 
-  // console.log(user)latitude: 45.5365
-  // longitude: -73.6242
 
   const handleSubmit = (ev) => {
     let keywords = userInput?.split(",");
     ev.preventDefault();
 
-    console.log(keywords);
 
+
+
+let userObj ={}
+
+
+
+    if (!isAuthenticated) {
+
+      userObj={
+        city: location.city,
+        country: location.country,
+        selectedLoc: [{ lat: spot.lat, lng: spot.lng }],
+        keywordArr: keywords,
+      }
+      setAnonymousUser(userObj);
+    }
+
+    if (isAuthenticated) {
+      userObj={
+        firstName: user?.given_name,
+        lastName: user.family_name,
+        email: user.email,
+        city: user["https://example.com/geoip"].city_name,
+        country: user["https://example.com/geoip"].country_name,
+        selectedLoc: [{ lat: spot.lat, lng: spot.lng }],
+        keywordArr: keywords,
+      }
+      setSignedInUser(userObj);
+    }
+
+    
     if (
       keywords === undefined ||
       keywords?.length === 0 ||
@@ -88,27 +123,7 @@ const InputForm = ({ isLoaded }) => {
       );
     }
 
-    if (!isAuthenticated) {
-      setAnonymousUser({
-        city: location.city,
-        country: location.country,
-        selectedLoc: [{ lat: spot.lat, lng: spot.lng }],
-        keywordArr: keywords,
-      });
-    }
-
-    if (isAuthenticated) {
-   
-      setSignedInUser({
-        firstName: user?.given_name,
-        lastName: user.family_name,
-        email: user.email,
-        city: user["https://example.com/geoip"].city_name,
-        country: user["https://example.com/geoip"].country_name,
-        selectedLoc: [{ lat: spot.lat, lng: spot.lng }],
-        keywordArr: keywords,
-      });
-    }
+    else{
 
     fetch("/api/newData", {
       method: "POST",
@@ -117,18 +132,26 @@ const InputForm = ({ isLoaded }) => {
         Accept: "application/json",
       },
 
-      body: isAuthenticated ? JSON.stringify(signedInUser) : JSON.stringify(anonymousUser),
+      body: JSON.stringify(userObj)
     })
       .then((res) => res.json())
+      
       .then((data) => {
+
+     
+
         if (data.status !== 200) {
+
           return window.alert("please fill the missing info");
+
         } else {
           if (!isAuthenticated) {
           window.localStorage.setItem("userInput", JSON.stringify(anonymousUser));}
-          // history.push(`/search`)
+
+          history.push("/search")
         }
       });
+    }
   };
 
   const decrement = (ev) => {

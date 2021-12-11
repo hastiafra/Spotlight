@@ -24,12 +24,12 @@ const App = () =>{
           <Route exact path="/">
             <Home/>
           </Route>
-           <Route path="/search" >
-            <Search opened={opened} setOpened={setOpened} />
-          </Route>
           <Route path="/location">
             <Location opened={opened} setOpened={setOpened} />
           </Route> 
+          <Route path="/search" >
+            <Search opened={opened} setOpened={setOpened} />
+          </Route>
         </Switch>
       </div>
     </>

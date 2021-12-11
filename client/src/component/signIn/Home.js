@@ -1,7 +1,8 @@
-import React from "react";
+import React, {useEffect} from  "react";
 import spotLight from "../../assets/spotLight.png";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useHistory } from "react-router-dom";
+
 
 //icons
 import { RiUserFollowLine, RiUserSearchLine } from "react-icons/ri";
@@ -22,9 +23,19 @@ import {
 const Home = () => {
 
   let history = useHistory();
+
   const { loginWithRedirect } = useAuth0();
 
-  console.log(process.env)
+  const {isAuthenticated } = useAuth0();
+
+  useEffect(() => {
+    if (isAuthenticated){
+        history.push("/location");
+    }
+   
+}, [isAuthenticated])
+
+  // console.log(process.env)
   return (
     <>
       <Overlay />

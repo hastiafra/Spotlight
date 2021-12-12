@@ -38,24 +38,40 @@ const userInput = async (req, res) => {
 };
 
 const searchKey = async (req, res) => {
-const client = new MongoClient(MONGO_URI, options);
 
-const { searchInput } = req.query;
+  const client = new MongoClient(MONGO_URI, options);
 
   try {
 
+  const { searchInput } = req.params;
     await client.connect();
 
     const db = client.db("SpotLight");
 
-    await db.collection("SignedinUsers").insertOne();
-    
-    await db.collection("guestUsers").insertOne();
-    
-    return res.status(200).json({
-      status: 200,
-      msg: "updated info",
-    });
+    const query = { keywordArr: searchInput.toLowerCase() };
+
+    // console.log(searchInput, "string")
+
+    let registeredUser = await db
+      .collection("SignedinUsers")
+      .find(query)
+      .toArray();
+
+    let guestUser = await db
+      .collection("guestUsers")
+      .find(query)
+      .toArray();
+
+      console.log(registeredUser, "check")
+      console.log(guestUser, "test")
+
+    if (registeredUser.length > 0 || guestUser.length> 0) {
+      return res.status(200).json({
+        status: 200,
+        data: registeredUser.concat(guestUser),
+      });
+    }
+
   } catch (err) {
     return res.status(400).json({
       status: 400,
@@ -65,6 +81,9 @@ const { searchInput } = req.query;
     client.close();
   }
 };
+
+
+
 
 module.exports = {
   userInput,

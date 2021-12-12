@@ -11,7 +11,9 @@ import mapStyles from "../../map/mapStyles";
 
 import Geocode from "react-geocode";
 
-const MapSearch = () => {
+import spotMarker from "../../../assets/spotMarker.png"
+
+const MapSearch = ({searchResult}) => {
   Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
 
   const { user, isAuthenticated } = useAuth0();
@@ -69,7 +71,30 @@ const MapSearch = () => {
             : location
         }
         options={options}
-      />
+      >
+{searchResult?.map((item)=>{
+
+return(
+  <Marker
+  key={item._id}
+  position={{lat: item["selectedLoc"].lat , lng: item["selectedLoc"].lng }}
+  icon ={{
+    url: `${spotMarker}`,
+    scaledSize:new window.google.maps.Size(25,30),
+    origin: new window.google.maps.Point(0,0),
+
+  }}
+  
+  
+  />
+)
+
+
+
+})}
+
+
+      </GoogleMap>
     </>
   );
 };

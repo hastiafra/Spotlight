@@ -12,7 +12,7 @@ express()
 
 .post("/api/newData", userInput)
 
-.get("/api/searchKey", searchKey)
+.get("/api/:searchInput", searchKey)
 
 .listen(PORT, function() {
   console.info('🌍 Listening on port ' + PORT);

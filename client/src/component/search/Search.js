@@ -19,7 +19,8 @@ import {
   H1,
   Check,
   Label,
-  Container, ButtonSearch
+  Container,
+  ButtonSearch,
 } from "./style";
 
 import {
@@ -36,27 +37,32 @@ const Search = ({ opened, setOpened }) => {
 
   const [searchInput, setSearchInput] = useState("");
 
+  const [searchResult, setSearchResult]= useState([])
+
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   });
-
 
   const searchChange = (e) => {
     setSearchInput(e.target.value);
   };
 
-  const handleSearch =()=>{
-    fetch(`/api/searchKey?searchKey=${searchInput}`)
+  const handleSearch = (ev) => {
 
-    .then((res) => res.json())
-    .then((data) => {
-      
-     
-   
-    });
-  }
+    ev.preventDefault();
+
+    if (searchInput.length > 0) {
+      fetch(`/api/${searchInput}`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data)
+         setSearchResult(data.data)
+        });
+    } 
+  };
 
 
+  console.log(searchResult)
   if (!isLoaded) {
     return <Loading />;
   } else {
@@ -75,28 +81,32 @@ const Search = ({ opened, setOpened }) => {
           <PhoneMenu opened={opened} setOpened={setOpened} search={true} />
         ) : null}
         <Wrapper>
-        
-          <H1>What are you looking for?</H1>  
-          <div>
-          <Input
-            value={searchInput}
-            onChange={searchChange}
-            type="text"
-            placeholder="Search for a keyword"
-            aria-label="Search Wearable Sync Store"
-          /> 
-           <ButtonSearch onClick={handleSearch}>
-           <BsSearch size={20} />
-           </ButtonSearch>
-           </div>
+          <H1>What are you looking for?</H1>
 
-          {isAuthenticated?
-          <Container>
-            <Check type="checkbox" name="vehicle1" />
-          
-            <Label for="vehicle1"> only show the registered user result</Label>
-          </Container>:null}
-          <MapSearch isLoaded={isLoaded} />
+          <form onSubmit={handleSearch}>
+            <Input
+              value={searchInput}
+              onChange={searchChange}
+              type="text"
+              placeholder="Search for a keyword"
+              required
+            />
+            <ButtonSearch>
+              <BsSearch size={20} />
+            </ButtonSearch>
+          </form>
+
+          {isAuthenticated ? (
+            <Container>
+              <Check type="checkbox" name="vehicle1" />
+
+              <Label for="vehicle1">
+                
+                only show the registered user result
+              </Label>
+            </Container>
+          ) : null}
+          <MapSearch isLoaded={isLoaded} searchResult={searchResult} />
         </Wrapper>
       </>
     );

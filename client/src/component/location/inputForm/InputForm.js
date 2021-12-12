@@ -29,9 +29,7 @@ import {
 
 import { useHistory } from "react-router-dom";
 
-
 const InputForm = ({ isLoaded }) => {
-
   let history = useHistory();
 
   const { user, isAuthenticated } = useAuth0();
@@ -51,7 +49,6 @@ const InputForm = ({ isLoaded }) => {
   const { setAnonymousUser, anonymousUser } = useContext(AnonymousUserContext);
 
   const handleConfirm = (ev) => {
-
     ev.preventDefault();
 
     localStorage.setItem("location", JSON.stringify(location));
@@ -76,81 +73,75 @@ const InputForm = ({ isLoaded }) => {
     );
   };
 
+ 
 
   const handleSubmit = (ev) => {
     let keywords = userInput?.split(",");
     ev.preventDefault();
 
-
-
-
-let userObj ={}
-
-
+    let userObj = {};
 
     if (!isAuthenticated) {
-
-      userObj={
+      userObj = {
         city: location.city,
         country: location.country,
-        selectedLoc: [{ lat: spot.lat, lng: spot.lng }],
+        selectedLoc: { lat: spot.lat, lng: spot.lng },
         keywordArr: keywords,
-      }
+        registered:false,
+        likes:0,
+      };
       setAnonymousUser(userObj);
     }
 
     if (isAuthenticated) {
-      userObj={
+      userObj = {
         firstName: user?.given_name,
         lastName: user.family_name,
         email: user.email,
         city: user["https://example.com/geoip"].city_name,
         country: user["https://example.com/geoip"].country_name,
-        selectedLoc: [{ lat: spot.lat, lng: spot.lng }],
+        selectedLoc: { lat: spot.lat, lng: spot.lng },
         keywordArr: keywords,
-      }
+        registered:true,
+        likes:0,
+      };
       setSignedInUser(userObj);
     }
 
-    
     if (
       keywords === undefined ||
       keywords?.length === 0 ||
-      keywords?.length > 3
+      keywords?.length > 3 || userObj.city.length === 0 || userObj.country.length===0
     ) {
       window.alert(
         "you need to put at least 1 keywords and max 3, make sure to separate keywords by comma "
       );
-    }
+    } else {
+      fetch("/api/newData", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
 
-    else{
+        body: JSON.stringify(userObj),
+      })
+        .then((res) => res.json())
 
-    fetch("/api/newData", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
+        .then((data) => {
+          if (data.status !== 200) {
+            return window.alert("please fill the missing info");
+          } else {
+            if (!isAuthenticated) {
+              window.localStorage.setItem(
+                "userInput",
+                JSON.stringify(anonymousUser)
+              );
+            }
 
-      body: JSON.stringify(userObj)
-    })
-      .then((res) => res.json())
-      
-      .then((data) => {
-
-     
-
-        if (data.status !== 200) {
-
-          return window.alert("please fill the missing info");
-
-        } else {
-          if (!isAuthenticated) {
-          window.localStorage.setItem("userInput", JSON.stringify(anonymousUser));}
-
-          history.push("/search")
-        }
-      });
+            history.push("/search");
+          }
+        });
     }
   };
 
@@ -193,7 +184,6 @@ let userObj ={}
         </Form>
       )}
       <Form onSubmit={handleSubmit}>
-        
         <MapWrapper>
           <MapLabel>Select the location on map</MapLabel>
 

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState,useEffect } from "react";
 
 import { SignedInUserContext } from "../../SignedInUserContext";
 
@@ -17,6 +17,32 @@ const MapSearch = () => {
   const { user, isAuthenticated } = useAuth0();
 
   const { signedInUser } = useContext(SignedInUserContext);
+
+  const [location, setLocation] = useState({ lat: 0, lng: 0 });
+
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      const location = JSON.parse(localStorage.getItem("location"));
+
+      let city = location?.city;
+      let country = location?.country;
+
+      Geocode.fromAddress(city + country).then(
+        (response) => {
+          const { lat, lng } = response.results[0].geometry.location;
+
+          setLocation({ lat, lng });
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    }
+  }, [location]);
+
+
+
 
   const mapContainerStyle = {
     width: "90vw",
@@ -40,7 +66,7 @@ const MapSearch = () => {
                 lat: user["https://example.com/geoip"].latitude,
                 lng: user["https://example.com/geoip"].longitude,
               }
-            : { lat: 0, lng: 0 }
+            : location
         }
         options={options}
       />

@@ -10,7 +10,7 @@ import { Wrapper, Xwrapper, NavMenu, SignIn } from "./style";
 //icon
 import { RiCloseFill } from "react-icons/ri";
 
-const PhoneMenu = ({ opened, setOpened, search}) => {
+const PhoneMenu = ({ opened, setOpened, search, profile}) => {
   const { isAuthenticated, loginWithRedirect } = useAuth0();
 
   return (
@@ -24,11 +24,13 @@ const PhoneMenu = ({ opened, setOpened, search}) => {
           >
             <RiCloseFill size={45} color={"rgb(255, 222, 89)"} />
           </Xwrapper>
-          {isAuthenticated ? (
-            <NavMenu to={"/profile"}>Profile</NavMenu>
-          ) : (
+          {isAuthenticated ?
+          (profile? <NavMenu to={"/location"} >
+          Add Spot
+          </NavMenu>: <NavMenu to={"/profile"}>Profile</NavMenu>):(
             <SignIn onClick={() => loginWithRedirect()}> Sign in</SignIn>
           )}
+
           {search? <NavMenu to={"/location"} >
           Add Spot
           </NavMenu>:<NavMenu to={"/search"}>Search</NavMenu> }

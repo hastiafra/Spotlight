@@ -6,8 +6,8 @@ import GlobalStyles from "./GlobalStyles";
 //children
 import Home from "./signIn/Home";
 import Location from "./location/Location";
-import Loading from "./Loading";
 import Search from "./search/Search";
+import Profile from "./profile/Profile"
 
 
 const App = () =>{
@@ -30,6 +30,11 @@ const App = () =>{
           <Route path="/search" >
             <Search opened={opened} setOpened={setOpened} />
           </Route>
+
+          <Route path="/profile" >
+            <Profile opened={opened} setOpened={setOpened} />
+          </Route>
+          
         </Switch>
       </div>
     </>

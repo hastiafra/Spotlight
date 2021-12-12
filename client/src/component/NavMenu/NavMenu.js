@@ -9,7 +9,7 @@ import SignOut from "../signOut/SignOut";
 //styling
 import { Img, Wrapper, Nav, Container, SignIn } from "./style";
 
-const NavMenu = ({ search }) => {
+const NavMenu = ({ search, profile }) => {
   const { isAuthenticated, loginWithRedirect } = useAuth0();
 
   return (
@@ -19,7 +19,9 @@ const NavMenu = ({ search }) => {
           <Img src={spotLight} />
         </Container>
 
-        {isAuthenticated ? <Nav to={"/profile"}>Profile</Nav> : null}
+        {isAuthenticated ? 
+          (profile ? <Nav to={"/location"}>Add Spot</Nav>: <Nav to={"/profile"}>Profile</Nav>): null}
+
         {search ? (
           <Nav to={"/location"}>Add Spot</Nav>
         ) : (

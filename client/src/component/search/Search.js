@@ -7,12 +7,20 @@ import { useAuth0 } from "@auth0/auth0-react";
 import NavMenu from "../NavMenu/NavMenu";
 import PhoneMenu from "../phoneMenu/PhoneMenu";
 import spotLight from "../../assets/spotLight.png";
-
-import MapSearch from "./map/MapSearch"
+import Loading from "../Loading";
+import MapSearch from "./map/MapSearch";
 
 //styling
-import { Sidebar, ImgMobile, Input, Wrapper, H1 } from "./style";
-
+import {
+  Sidebar,
+  ImgMobile,
+  Input,
+  Wrapper,
+  H1,
+  Check,
+  Label,
+  Container, ButtonSearch
+} from "./style";
 
 import {
   GoogleMap,
@@ -20,45 +28,79 @@ import {
   useLoadScript,
 } from "@react-google-maps/api";
 
+//icon
+import { BsSearch } from "react-icons/bs";
 
 const Search = ({ opened, setOpened }) => {
   const { user, isAuthenticated } = useAuth0();
 
+  const [searchInput, setSearchInput] = useState("");
+
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-    
   });
 
 
-if (!isLoaded) {
- return <h1>loading</h1>
-}
-else{ return (
-    <>
-      <NavMenu search={true} />
-      <Sidebar
-        onClick={() => {
-          setOpened(!opened);
-        }}
-      >
-        <ImgMobile src={spotLight} />
-      </Sidebar>
+  const searchChange = (e) => {
+    setSearchInput(e.target.value);
+  };
 
-      {opened ? (
-        <PhoneMenu opened={opened} setOpened={setOpened} search={true} />
-      ) : null}
-      <Wrapper>
-    <H1>What are you looking for?</H1>
-        <Input
-          type="text"
-          placeholder="Search for keywords"
-          aria-label="Search Wearable Sync Store"
-        />
+  const handleSearch =()=>{
+    fetch(`/api/searchKey?searchKey=${searchInput}`)
 
-    <MapSearch isLoaded={isLoaded}/>
-      </Wrapper>
-    </>
-  );}
+    .then((res) => res.json())
+    .then((data) => {
+      
+     
+   
+    });
+  }
+
+
+  if (!isLoaded) {
+    return <Loading />;
+  } else {
+    return (
+      <>
+        <NavMenu search={true} />
+        <Sidebar
+          onClick={() => {
+            setOpened(!opened);
+          }}
+        >
+          <ImgMobile src={spotLight} />
+        </Sidebar>
+
+        {opened ? (
+          <PhoneMenu opened={opened} setOpened={setOpened} search={true} />
+        ) : null}
+        <Wrapper>
+        
+          <H1>What are you looking for?</H1>  
+          <div>
+          <Input
+            value={searchInput}
+            onChange={searchChange}
+            type="text"
+            placeholder="Search for a keyword"
+            aria-label="Search Wearable Sync Store"
+          /> 
+           <ButtonSearch onClick={handleSearch}>
+           <BsSearch size={20} />
+           </ButtonSearch>
+           </div>
+
+          {isAuthenticated?
+          <Container>
+            <Check type="checkbox" name="vehicle1" />
+          
+            <Label for="vehicle1"> only show the registered user result</Label>
+          </Container>:null}
+          <MapSearch isLoaded={isLoaded} />
+        </Wrapper>
+      </>
+    );
+  }
 };
 
 export default Search;

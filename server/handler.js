@@ -8,38 +8,65 @@ const options = {
 };
 
 const userInput = async (req, res) => {
-    const client = new MongoClient(MONGO_URI, options);
-  
-    const { email } = req.body;
+  const client = new MongoClient(MONGO_URI, options);
 
- try {
-      await client.connect();
-  
-      const db = client.db("SpotLight");
-  
-      if (email) {
+  const { email } = req.body;
 
-        await db.collection("SignedinUsers").insertOne(req.body);
-        
+  try {
+    await client.connect();
 
-      } else {
-        await db.collection("guestUsers").insertOne(req.body);
-      }
-  
-      return res.status(200).json({
-        status: 200,
-        msg: "updated info",
-      });
-    } catch (err) {
-      return res.status(400).json({
-        status: 400,
-        msg: err.message,
-      });
-    } finally {
-      client.close();
+    const db = client.db("SpotLight");
+
+    if (email) {
+      await db.collection("SignedinUsers").insertOne(req.body);
+    } else {
+      await db.collection("guestUsers").insertOne(req.body);
     }
-  };
+
+    return res.status(200).json({
+      status: 200,
+      msg: "updated info",
+    });
+  } catch (err) {
+    return res.status(400).json({
+      status: 400,
+      msg: err.message,
+    });
+  } finally {
+    client.close();
+  }
+};
+
+const searchKey = async (req, res) => {
+const client = new MongoClient(MONGO_URI, options);
+
+const { searchInput } = req.query;
+
+  try {
+
+    await client.connect();
+
+    const db = client.db("SpotLight");
+
+    await db.collection("SignedinUsers").insertOne();
+    
+    await db.collection("guestUsers").insertOne();
+    
+    return res.status(200).json({
+      status: 200,
+      msg: "updated info",
+    });
+  } catch (err) {
+    return res.status(400).json({
+      status: 400,
+      msg: err.message,
+    });
+  } finally {
+    client.close();
+  }
+};
 
 module.exports = {
   userInput,
+  searchKey,
 };

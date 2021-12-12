@@ -25,6 +25,9 @@ import {
   MapLabel,
   Submit,
   Search,
+  Div,
+  Describe,
+  DescribeHolder,
 } from "./style";
 
 import { useHistory } from "react-router-dom";
@@ -41,6 +44,8 @@ const InputForm = ({ isLoaded }) => {
   const [location, setLocation] = useState({ city: "", country: "" });
 
   const [confirmLoc, setConfirmLoc] = useState(false);
+
+  const[mapSpot, setMapSpot]=useState("")
 
   const [spot, setSpot] = useState("");
 
@@ -60,8 +65,18 @@ const InputForm = ({ isLoaded }) => {
     setLocation({ ...location, [key]: ev.target.value });
   };
 
-  const getSpot = (ev) => {
-    Geocode.fromAddress(ev.target.value).then(
+ 
+
+    const getSpot = (ev) => {
+
+     setMapSpot(ev.target.value)
+
+    }
+
+
+  const handleSubmit = (ev) => {
+
+    Geocode.fromAddress(mapSpot).then(
       (response) => {
         const { lat, lng } = response.results[0].geometry.location;
 
@@ -71,11 +86,8 @@ const InputForm = ({ isLoaded }) => {
         console.error(error);
       }
     );
-  };
+    
 
- 
-
-  const handleSubmit = (ev) => {
     let keywords = userInput?.split(",");
     ev.preventDefault();
 
@@ -87,8 +99,9 @@ const InputForm = ({ isLoaded }) => {
         country: location.country,
         selectedLoc: { lat: spot.lat, lng: spot.lng },
         keywordArr: keywords,
-        registered:false,
-        likes:0,
+        registered: false,
+        likes: 0,
+        description:"",
       };
       setAnonymousUser(userObj);
     }
@@ -102,8 +115,9 @@ const InputForm = ({ isLoaded }) => {
         country: user["https://example.com/geoip"].country_name,
         selectedLoc: { lat: spot.lat, lng: spot.lng },
         keywordArr: keywords,
-        registered:true,
-        likes:0,
+        registered: true,
+        likes: 0,
+        description:"",
       };
       setSignedInUser(userObj);
     }
@@ -111,7 +125,9 @@ const InputForm = ({ isLoaded }) => {
     if (
       keywords === undefined ||
       keywords?.length === 0 ||
-      keywords?.length > 3 || userObj.city.length === 0 || userObj.country.length===0
+      keywords?.length > 3 ||
+      userObj.city.length === 0 ||
+      userObj.country.length === 0
     ) {
       window.alert(
         "you need to put at least 1 keywords and max 3, make sure to separate keywords by comma "
@@ -188,7 +204,7 @@ const InputForm = ({ isLoaded }) => {
           <MapLabel>Select the location on map</MapLabel>
 
           <MapLabel> or Put an address/postal code/ location name </MapLabel>
-          <Input onChange={getSpot} type="text" required />
+          <Input onChange={getSpot}  value={mapSpot} type="text" />
 
           <Map
             confirmLoc={confirmLoc}
@@ -197,21 +213,31 @@ const InputForm = ({ isLoaded }) => {
             setSpot={setSpot}
           />
         </MapWrapper>
-        <Label>
-          Enter relevant keywords and separate them with commas ","
-          <Span>E.g. restaurant, sushi, all you can eat </Span>
-        </Label>
+        <Div>
+          <div>
+            <Label>
+              Enter relevant keywords with no space and separate them with
+              commas ","
+              <Span>E.g. restaurant,sushi,all you can eat </Span>
+            </Label>
 
-        <Container>
-          <Text
-            onChange={decrement}
-            maxLength="70"
-            placeholder="Min 1 and Max 3 keywords"
-            value={userInput}
-          />
+            <Container>
+              <Text
+                onChange={decrement}
+                maxLength="70"
+                placeholder="Min 1 and Max 3 keywords"
+                value={userInput}
+              />
 
-          <Num>{characters}</Num>
-        </Container>
+              <Num>{characters}</Num>
+            </Container>
+          </div>
+          <DescribeHolder>
+            <Label>Enter relevant description to the selected spot</Label>
+
+            <Describe placeholder="Optional" value={userInput} />
+          </DescribeHolder>
+        </Div>
 
         <Submit type="submit">Submit</Submit>
       </Form>

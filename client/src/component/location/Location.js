@@ -25,18 +25,13 @@ const Location = ({opened, setOpened}) => {
 
  
 
-  const [location, setLocation] = useState({ city: "", country: "" });
+  // const [location, setLocation] = useState({ city: "", country: "" });
 
 
 
-  const libraries = ["places"];
+  // const libraries = ["places"];
 
   const { user, isAuthenticated } = useAuth0();
-
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-    libraries
-  });
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -51,9 +46,7 @@ const Location = ({opened, setOpened}) => {
   }, [user]);
 
  
-  if (!isLoaded) {
-    return <Loading />;
-  } else {
+ 
     return (
       <>
         <Sidebar
@@ -74,10 +67,10 @@ const Location = ({opened, setOpened}) => {
           <Para> Hello guest user!</Para>
         )}
 
-        <InputForm isLoaded={isLoaded} />
+        <InputForm/>
       </>
     );
-  }
+  
 };
 
 export default Location;

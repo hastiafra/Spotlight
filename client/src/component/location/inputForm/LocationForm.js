@@ -3,15 +3,17 @@ import React, { useContext, useState } from "react";
 import styled from "styled-components";
 
 const LocationForm = ({ setLocation, setConfirmLoc, confirmLoc, location }) => {
+
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
 
   const handleConfirm = (ev) => {
+
     ev.preventDefault();
 
-    setLocation({ city, country });
+    setLocation({ city:city, country:country });
 
-    localStorage.setItem("location", JSON.stringify(location));
+    // localStorage.setItem("location", JSON.stringify(location));
 
     setConfirmLoc(!confirmLoc);
   };

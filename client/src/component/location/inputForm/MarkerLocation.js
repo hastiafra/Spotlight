@@ -4,6 +4,9 @@ import styled from "styled-components";
 
 import Geocode from "react-geocode";
 
+/* eslint-disable no-undef */
+/* global google */
+
 const MarkerLocation = ({ setMapSpot, mapSpot, setSpot }) => {
 
     Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
@@ -15,8 +18,10 @@ const getInput =(ev) =>{
 
 }
 
+
   const getSpot = () => {
 
+    console.log("getspot is called")
     Geocode.fromAddress(mapSpot).then(
       (response) => {
         const { lat, lng } = response.results[0].geometry.location;

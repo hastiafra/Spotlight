@@ -65,13 +65,21 @@ const searchKey = async (req, res) => {
       console.log(registeredUser, "check")
       console.log(guestUser, "test")
 
-    if (registeredUser.length > 0 || guestUser.length> 0) {
+    if (registeredUser !== undefined || guestUser.length !== undefined ) {
       return res.status(200).json({
         status: 200,
         data: registeredUser.concat(guestUser),
-      });
+       
+      }); 
+ 
     }
+    else{
+      return res.status(400).json({
+        status: 400,
+        msg: "keyword not found",
+      });
 
+    }
   } catch (err) {
     return res.status(400).json({
       status: 400,

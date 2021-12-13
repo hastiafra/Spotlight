@@ -9,9 +9,14 @@ import { GoogleMap, InfoWindow, Marker } from "@react-google-maps/api";
 
 import mapStyles from "../../map/mapStyles";
 
-import Geocode from "react-geocode";
+// import Geocode from "react-geocode";
 
 import spotMarker from "../../../assets/spotMarker.png";
+
+
+
+//children
+import MarkerInfo from "./MarkerInfo";
 
 
 
@@ -19,7 +24,7 @@ import spotMarker from "../../../assets/spotMarker.png";
 
 const MapSearch = ({ searchResult }) => {
   
-  Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
+  // Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
 
   const { user, isAuthenticated } = useAuth0();
 
@@ -33,19 +38,8 @@ const MapSearch = ({ searchResult }) => {
     if (!isAuthenticated) {
       const location = JSON.parse(localStorage.getItem("location"));
 
-      let city = location?.city;
-      let country = location?.country;
-
-      Geocode.fromAddress(city + country).then(
-        (response) => {
-          const { lat, lng } = response.results[0].geometry.location;
-
-          setLocation({ lat, lng });
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
+     setLocation(location);
+    
     }
   }, [location]);
 
@@ -75,7 +69,7 @@ const MapSearch = ({ searchResult }) => {
         }
         options={options}
       >
-        {searchResult?.map((item) => {
+        {searchResult? searchResult.map((item) => {
           return (
             <Marker
               key={item._id}
@@ -93,7 +87,7 @@ const MapSearch = ({ searchResult }) => {
               }}
             />
           );
-        })}
+        }): <div><h1>no result found</h1></div> }
     
         {console.log(detail?.selectedLoc)}
 
@@ -108,7 +102,7 @@ const MapSearch = ({ searchResult }) => {
             onCloseClick={() => setDetail(null)}
           >
 
-            <div>hi</div>
+            <MarkerInfo searchResult={searchResult}/>
             
 
           </InfoWindow>

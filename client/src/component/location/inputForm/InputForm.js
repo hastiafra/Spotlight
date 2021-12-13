@@ -8,7 +8,12 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 //map
 import Map from "../../map/Map";
-import Geocode from "react-geocode";
+
+import {
+  GoogleMap,
+  useJsApiLoader,
+  useLoadScript,
+} from "@react-google-maps/api";
 
 //styling
 import {
@@ -37,7 +42,7 @@ import LocationForm from "./LocationForm";
 
 import MarkerLocation from "./MarkerLocation";
 
-const InputForm = ({ isLoaded }) => {
+const InputForm = () => {
   let history = useHistory();
 
   const { user, isAuthenticated } = useAuth0();
@@ -48,7 +53,7 @@ const InputForm = ({ isLoaded }) => {
 
   const [keyDescribe, setKeyDescribe] = useState("");
 
-  const [location, setLocation] = useState({});
+  const [location, setLocation] = useState({city: "", country: ""});
 
   const [confirmLoc, setConfirmLoc] = useState(false);
 
@@ -62,9 +67,13 @@ const InputForm = ({ isLoaded }) => {
 
   const { setAnonymousUser, anonymousUser } = useContext(AnonymousUserContext);
 
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+  });
+
   const handleSubmit = (ev) => {
-   
     let keywords = userInput?.split(",");
+
     ev.preventDefault();
 
     let userObj = {};
@@ -151,28 +160,32 @@ const InputForm = ({ isLoaded }) => {
       <LocationWrapper>
         {isAuthenticated ? (
           <Para>
-            Your current city is {user["https://example.com/geoip"].city_name}{" "}
+            Your current city is {user["https://example.com/geoip"].city_name}
             in {user["https://example.com/geoip"].country_name}.
           </Para>
         ) : (
           <LocationForm
             setLocation={setLocation}
             setConfirmLoc={setConfirmLoc}
-            mapSpot={mapSpot}
+            location={location}
             confirmLoc={confirmLoc}
           />
         )}
 
-        <MarkerLocation setMapSpot={setMapSpot}
-        mapSpot={mapSpot} setSpot={setSpot}/>
+        <MarkerLocation
+          setMapSpot={setMapSpot}
+          mapSpot={mapSpot}
+          setSpot={setSpot}
+          isLoaded={isLoaded}
+        />
       </LocationWrapper>
-
       <Form onSubmit={handleSubmit}>
         <Map
           confirmLoc={confirmLoc}
           isLoaded={isLoaded}
           spot={spot}
           setSpot={setSpot}
+          location={location}
         />
 
         <Div>

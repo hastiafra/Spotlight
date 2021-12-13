@@ -41,7 +41,7 @@ const MapSearch = ({ searchResult }) => {
      setLocation(location);
     
     }
-  }, [location]);
+  }, []);
 
   const mapContainerStyle = {
     width: "90vw",
@@ -88,8 +88,6 @@ const MapSearch = ({ searchResult }) => {
             />
           );
         }): <div><h1>no result found</h1></div> }
-    
-        {console.log(detail?.selectedLoc)}
 
          {detail ? (
           <InfoWindow

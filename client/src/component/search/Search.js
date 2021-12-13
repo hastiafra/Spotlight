@@ -37,7 +37,7 @@ const Search = ({ opened, setOpened }) => {
 
   const [searchInput, setSearchInput] = useState("");
 
-  const [searchResult, setSearchResult]= useState([])
+  const [searchResult, setSearchResult] = useState([]);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -48,21 +48,24 @@ const Search = ({ opened, setOpened }) => {
   };
 
   const handleSearch = (ev) => {
-
     ev.preventDefault();
 
     if (searchInput.length > 0) {
       fetch(`/api/${searchInput}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data)
-         setSearchResult(data.data)
+          if (data.data[0]) {
+            setSearchResult(data.data);
+          }
+          else{
+           window.alert("not found")
+          }
         });
-    } 
+    }
   };
+  
 
-
-  console.log(searchResult)
+  console.log(searchResult);
   if (!isLoaded) {
     return <Loading />;
   } else {
@@ -98,11 +101,14 @@ const Search = ({ opened, setOpened }) => {
 
           {isAuthenticated ? (
             <Container>
-              <Check type="checkbox" name="vehicle1" />
+              <Check type="checkbox" name="registered" value={true} />
+
+              <Label for="vehicle1">only show the registered user result</Label>
+
+              <Check type="checkbox" name="likes" value={true} />
 
               <Label for="vehicle1">
-                
-                only show the registered user result
+                only show the result with highest likes
               </Label>
             </Container>
           ) : null}

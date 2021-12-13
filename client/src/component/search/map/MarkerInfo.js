@@ -1,6 +1,6 @@
 import { Marker } from "@react-google-maps/api";
 import React, { useContext, useState, useEffect } from "react";
-import {AiTwotoneLike,} from 'react-icons/Ai';
+import {AiTwotoneLike,} from 'react-icons/ai';
 
 
 const MarkerInfo = ({searchResult}) =>{

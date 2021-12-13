@@ -48,7 +48,8 @@ animation-iteration-count: infinite;
 
 const Wrapper = styled.div`
 background-color: rgb(38, 38, 46, 0.8);
-min-height:100vh;
+min-height:100%;
+min-width:100%;
 display:flex;
 align-items: center;
 flex-direction: row;

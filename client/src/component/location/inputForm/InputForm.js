@@ -13,7 +13,7 @@ import Geocode from "react-geocode";
 //styling
 import {
   Para,
-  MapWrapper,
+  LocationWrapper,
   Wrapper,
   Input,
   Label,
@@ -32,6 +32,11 @@ import {
 
 import { useHistory } from "react-router-dom";
 
+//children
+import LocationForm from "./LocationForm";
+
+import MarkerLocation from "./MarkerLocation";
+
 const InputForm = ({ isLoaded }) => {
   let history = useHistory();
 
@@ -41,53 +46,24 @@ const InputForm = ({ isLoaded }) => {
 
   const [userInput, setUserInput] = useState();
 
-  const [location, setLocation] = useState({ city: "", country: "" });
+  const [keyDescribe, setKeyDescribe] = useState("");
+
+  const [location, setLocation] = useState({});
 
   const [confirmLoc, setConfirmLoc] = useState(false);
 
-  const[mapSpot, setMapSpot]=useState("")
+  const [mapSpot, setMapSpot] = useState(null);
 
   const [spot, setSpot] = useState("");
+
+  // console.log(location)
 
   const { setSignedInUser, signedInUser } = useContext(SignedInUserContext);
 
   const { setAnonymousUser, anonymousUser } = useContext(AnonymousUserContext);
 
-  const handleConfirm = (ev) => {
-    ev.preventDefault();
-
-    localStorage.setItem("location", JSON.stringify(location));
-
-    setConfirmLoc(!confirmLoc);
-  };
-
-  const getLocation = (ev, key) => {
-    setLocation({ ...location, [key]: ev.target.value });
-  };
-
- 
-
-    const getSpot = (ev) => {
-
-     setMapSpot(ev.target.value)
-
-    }
-
-
   const handleSubmit = (ev) => {
-
-    Geocode.fromAddress(mapSpot).then(
-      (response) => {
-        const { lat, lng } = response.results[0].geometry.location;
-
-        setSpot({ lat, lng });
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-    
-
+   
     let keywords = userInput?.split(",");
     ev.preventDefault();
 
@@ -101,7 +77,7 @@ const InputForm = ({ isLoaded }) => {
         keywordArr: keywords,
         registered: false,
         likes: 0,
-        description:"",
+        description: keyDescribe,
       };
       setAnonymousUser(userObj);
     }
@@ -117,7 +93,7 @@ const InputForm = ({ isLoaded }) => {
         keywordArr: keywords,
         registered: true,
         likes: 0,
-        description:"",
+        description: keyDescribe,
       };
       setSignedInUser(userObj);
     }
@@ -166,53 +142,39 @@ const InputForm = ({ isLoaded }) => {
     setUserInput(ev.target.value);
   };
 
+  const describe = (ev) => {
+    setKeyDescribe(ev.target.value);
+  };
+
   return (
     <Wrapper>
-      {isAuthenticated ? (
-        <Para>
-          Your current city is {user["https://example.com/geoip"].city_name} in{" "}
-          {user["https://example.com/geoip"].country_name}.
-        </Para>
-      ) : (
-        <Form onSubmit={handleConfirm}>
-          <Wrapper>
-            <Para>Enter your current location</Para>
-            <label> City: </label>
-            <Input
-              type="text"
-              onChange={(ev) => {
-                getLocation(ev, "city");
-              }}
-              value={location.city}
-              required
-            />
-            <label> Country: </label>
-            <Input
-              type="text"
-              onChange={(ev) => {
-                getLocation(ev, "country");
-              }}
-              value={location.country}
-              required
-            />
-            <Search type="submit">Search</Search>
-          </Wrapper>
-        </Form>
-      )}
-      <Form onSubmit={handleSubmit}>
-        <MapWrapper>
-          <MapLabel>Select the location on map</MapLabel>
-
-          <MapLabel> or Put an address/postal code/ location name </MapLabel>
-          <Input onChange={getSpot}  value={mapSpot} type="text" />
-
-          <Map
+      <LocationWrapper>
+        {isAuthenticated ? (
+          <Para>
+            Your current city is {user["https://example.com/geoip"].city_name}{" "}
+            in {user["https://example.com/geoip"].country_name}.
+          </Para>
+        ) : (
+          <LocationForm
+            setLocation={setLocation}
+            setConfirmLoc={setConfirmLoc}
+            mapSpot={mapSpot}
             confirmLoc={confirmLoc}
-            isLoaded={isLoaded}
-            spot={spot}
-            setSpot={setSpot}
           />
-        </MapWrapper>
+        )}
+
+        <MarkerLocation setMapSpot={setMapSpot}
+        mapSpot={mapSpot} setSpot={setSpot}/>
+      </LocationWrapper>
+
+      <Form onSubmit={handleSubmit}>
+        <Map
+          confirmLoc={confirmLoc}
+          isLoaded={isLoaded}
+          spot={spot}
+          setSpot={setSpot}
+        />
+
         <Div>
           <div>
             <Label>
@@ -235,7 +197,11 @@ const InputForm = ({ isLoaded }) => {
           <DescribeHolder>
             <Label>Enter relevant description to the selected spot</Label>
 
-            <Describe placeholder="Optional" value={userInput} />
+            <Describe
+              onChange={describe}
+              placeholder="Optional"
+              value={keyDescribe}
+            />
           </DescribeHolder>
         </Div>
 

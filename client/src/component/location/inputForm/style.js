@@ -33,8 +33,7 @@ export const Describe = styled.textarea`
   }
 `;
 
-export const MapWrapper = styled.div`
-  background-color: rgb(74, 74, 89);
+export const LocationWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -87,6 +86,8 @@ export const Submit = styled.button`
   }
 `;
 
+
+
 export const Label = styled.label`
   text-align: center;
   display: block;
@@ -97,7 +98,7 @@ export const Label = styled.label`
 
 export const MapLabel = styled(Label)`
   padding: 10px 0px 5px;
-  color: var(--ghostWhite);
+  color:  var(--DarkGray);
 `;
 export const Span = styled.span`
   text-align: center;

@@ -41,6 +41,8 @@ const Search = ({ opened, setOpened }) => {
 
   const [registeredCheck, setRegisteredCheck] = useState(false);
 
+  const [highestLikesCheck, setHighestLikesCheck] = useState(false);
+
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   });
@@ -70,13 +72,41 @@ const Search = ({ opened, setOpened }) => {
   };
 
   let registeredArr = [];
+
+  // if (registeredCheck === true && highestLikesCheck===false) {
+  //   registeredArr = searchResult.filter((data) => {
+  //     return data.registered === true;
+  //   });
+  // }
+
   if (registeredCheck === true) {
     registeredArr = searchResult.filter((data) => {
       return data.registered === true;
     });
   }
 
-  console.log(registeredArr);
+
+  const getHighestLikes = () => {
+    setHighestLikesCheck(!highestLikesCheck);
+  };
+
+  let highestLikes = [];
+
+  if (highestLikesCheck === true && registeredCheck === true) {
+    highestLikes = registeredArr.filter((data) => {
+      return Math.max(data.likes);
+    });
+  }
+
+  if (highestLikesCheck === true && registeredCheck === false) {
+    highestLikes = searchResult.filter((data) => {
+      return Math.max(data.likes);
+    });
+  }
+
+  // console.log(highestLikes)
+
+  // console.log(registeredArr);
   if (!isLoaded) {
     return <Loading />;
   } else {
@@ -120,7 +150,7 @@ const Search = ({ opened, setOpened }) => {
 
               <Label for="vehicle1">only show the registered user result</Label>
 
-              <Check type="checkbox" name="likes" value={true} />
+              <Check type="checkbox" name="likes" onChange={getHighestLikes} />
 
               <Label for="vehicle1">
                 only show the result with highest likes
@@ -132,6 +162,8 @@ const Search = ({ opened, setOpened }) => {
             searchResult={searchResult}
             registeredArr={registeredArr}
             registeredCheck={registeredCheck}
+            highestLikesCheck={highestLikesCheck}
+            highestLikes={highestLikes}
           />
         </Wrapper>
       </>

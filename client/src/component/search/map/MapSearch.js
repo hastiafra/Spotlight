@@ -16,7 +16,7 @@ import spotMarker from "../../../assets/spotMarker.png";
 //children
 import MarkerInfo from "./MarkerInfo";
 
-const MapSearch = ({ searchResult, registeredArr, registeredCheck }) => {
+const MapSearch = ({ searchResult, registeredArr, registeredCheck, highestLikesCheck, highestLikes }) => {
   // Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
 
   const { user, isAuthenticated } = useAuth0();
@@ -80,6 +80,24 @@ const MapSearch = ({ searchResult, registeredArr, registeredCheck }) => {
                 }}
               />
             );
+          }): highestLikesCheck? highestLikes.map((item) => {
+            return (
+              <Marker
+                key={item._id}
+                position={{
+                  lat: item["selectedLoc"].lat,
+                  lng: item["selectedLoc"].lng,
+                }}
+                icon={{
+                  url: `${spotMarker}`,
+                  scaledSize: new window.google.maps.Size(25, 30),
+                  origin: new window.google.maps.Point(0, 0),
+                }}
+                onClick={() => {
+                  setDetail(item);
+                }}
+              />
+            );
           }): searchResult ? (
             searchResult.map((item) => {
               return (
@@ -117,9 +135,6 @@ const MapSearch = ({ searchResult, registeredArr, registeredCheck }) => {
           >
             <MarkerInfo
               detail={detail}
-              searchResult={searchResult}
-              registeredArr={registeredArr}
-              registeredCheck={registeredCheck}
             />
           </InfoWindow>
         ) : null}

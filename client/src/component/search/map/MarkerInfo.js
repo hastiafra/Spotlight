@@ -13,17 +13,19 @@ const MarkerInfo = ({ detail }) => {
   const { user, isAuthenticated } = useAuth0();
 
   const toggleLike = () => {
+
     setLikes(!likes);
 
     likes ? setLikeNum(detail?.likes) : setLikeNum(detail?.likes + 1);
 
-    fetch(`/api/likes/${detail._id}`, {
+    // console.log(likeNum)
+    fetch(`/api/likes/${detail.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({detail, likeNum }),
+      body: JSON.stringify({detail }),
       //the keys in frontend has to match the backend
     })
       .then((res) => res.json())

@@ -14,7 +14,7 @@ express()
 
 .get("/api/:searchInput", searchKey)
 
-.patch("/api/likes/:_id", updateLikes)
+.patch("/api/likes/:id", updateLikes)
 
 .listen(PORT, function() {
   console.info('🌍 Listening on port ' + PORT);

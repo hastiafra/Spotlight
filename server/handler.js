@@ -8,10 +8,18 @@ const options = {
   useUnifiedTopology: true,
 };
 
+
+// using uuid to create unique id for our customers
+const { v4: uuidv4 } = require("uuid");
+
 const userInput = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
 
+  const id = uuidv4();
+
   const { email } = req.body;
+
+ const post = {...req.body, id}
 
   try {
     await client.connect();
@@ -19,9 +27,9 @@ const userInput = async (req, res) => {
     const db = client.db("SpotLight");
 
     if (email) {
-      await db.collection("SignedinUsers").insertOne(req.body);
+      await db.collection("SignedinUsers").insertOne(post);
     } else {
-      await db.collection("guestUsers").insertOne(req.body);
+      await db.collection("guestUsers").insertOne(post);
     }
 
     return res.status(200).json({
@@ -89,26 +97,33 @@ const updateLikes = async (req, res) => {
     await client.connect();
 
     const db = client.db("SpotLight");
-    const { detail, likeNum } = req.body;
 
-    const { _id } = req.params;
-    const clientId = { _id };
+    const { likes } = req.body;
 
-    const newValue = { likes: Number(likeNum) };
+    const { id } = req.params;
 
-    detail = JSON.parse(detail);
+    
+    const clientId = { id };
 
-    console.log(clientId, "clientId");
-    console.log(detail, "detail");
-    console.log(likeNum, "likeNum");
+    const newValue = { likes: Number(likes) };
 
-    if (detail.registered === true) {
+    // console.log(newValue)
+
+    let detailsObj = req.body;
+
+    // console.log(clientId, "clientId");
+    console.log(detailsObj, "detail");
+    // console.log(likeNum, "likeNum");
+
+    if (detailsObj.registered === "true") {
       const registeredUser = await db
         .collection("SignedinUsers")
         .updateOne(clientId, { $set: newValue });
+        console.log(registeredUser)
+
     }
 
-    if (detail.registered === false) {
+    if (detailsObj.registered === "false") {
       const user = await db
         .collection("guestUsers")
         .updateOne(clientId, { $set: newValue });
@@ -116,11 +131,11 @@ const updateLikes = async (req, res) => {
 
     res.status(200).json({
       status: 200,
-      data: { _id, likes },
+      data: {id, likes },
     });
     client.close();
   } catch (err) {
-    res.status(500).json({ status: "Error", data: req.body, msg: err.message });
+    res.status(500).json({ status: "Error", data: req.body, msg: err.stack });
   }
 };
 

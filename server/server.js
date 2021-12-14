@@ -4,7 +4,7 @@ const morgan = require("morgan");
 
 
 const PORT = 8000;
-const {userInput, searchKey}= require("./handler")
+const {userInput, searchKey, updateLikes}= require("./handler")
 
 express()
 .use(morgan("tiny"))
@@ -13,6 +13,8 @@ express()
 .post("/api/newData", userInput)
 
 .get("/api/:searchInput", searchKey)
+
+.patch("/api/likes/:_id", updateLikes)
 
 .listen(PORT, function() {
   console.info('🌍 Listening on port ' + PORT);

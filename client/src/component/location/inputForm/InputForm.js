@@ -51,7 +51,7 @@ const InputForm = () => {
 
   const [userInput, setUserInput] = useState();
 
-  const [keyDescribe, setKeyDescribe] = useState("");
+  const [keyDescribe, setKeyDescribe] = useState("N/A");
 
   const [location, setLocation] = useState({city: "", country: ""});
 

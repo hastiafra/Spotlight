@@ -25,7 +25,7 @@ const MarkerInfo = ({ detail }) => {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({detail }),
+      body: JSON.stringify({detail}),
       //the keys in frontend has to match the backend
     })
       .then((res) => res.json())

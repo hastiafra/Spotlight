@@ -72,31 +72,40 @@ const Search = ({ opened, setOpened }) => {
   };
 
   let registeredArr = [];
-
-  // if (registeredCheck === true && highestLikesCheck===false) {
-  //   registeredArr = searchResult.filter((data) => {
-  //     return data.registered === true;
-  //   });
-  // }
-
-  if (registeredCheck === true) {
-    registeredArr = searchResult.filter((data) => {
-      return data.registered === true;
-    });
-  }
-
+  
+  let highestLikes = [];
+ 
 
   const getHighestLikes = () => {
     setHighestLikesCheck(!highestLikesCheck);
   };
 
-  let highestLikes = [];
 
-  if (highestLikesCheck === true && registeredCheck === true) {
-    highestLikes = registeredArr.filter((data) => {
-      return Math.max(data.likes);
+  if (registeredCheck === true) {
+    registeredArr = searchResult.filter((data) => {
+      return data.registered === true;
     });
+
+    if (highestLikesCheck === true) {
+      highestLikes = registeredArr.filter((data) => {
+        return Math.max(data.likes);
+      });
+    }
   }
+
+
+
+  // if (registeredCheck === true) {
+  //   highestLikes = registeredArr.filter((data) => {
+  //     return Math.max(data.likes);
+  //   });
+
+  //   if (highestLikesCheck === true) {
+  //     highestLikes = registeredArr.filter((data) => {
+  //       return Math.max(data.likes);
+  //     });
+  //   }
+  // }
 
   if (highestLikesCheck === true && registeredCheck === false) {
     highestLikes = searchResult.filter((data) => {

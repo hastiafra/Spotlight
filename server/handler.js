@@ -51,6 +51,7 @@ const searchKey = async (req, res) => {
 
   try {
     const { searchInput } = req.params;
+    
     await client.connect();
 
     const db = client.db("SpotLight");
@@ -112,7 +113,7 @@ const updateLikes = async (req, res) => {
     let detailsObj = req.body;
 
     // console.log(clientId, "clientId");
-    console.log(detailsObj, "detail");
+    // console.log(detailsObj, "detail");
     // console.log(likeNum, "likeNum");
 
     if (detailsObj.registered === "true") {

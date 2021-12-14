@@ -51,7 +51,7 @@ const InputForm = () => {
 
   const [userInput, setUserInput] = useState();
 
-  const [keyDescribe, setKeyDescribe] = useState("N/A");
+  const [keyDescribe, setKeyDescribe] = useState(null);
 
   const [location, setLocation] = useState({city: "", country: ""});
 
@@ -72,7 +72,7 @@ const InputForm = () => {
   });
 
   const handleSubmit = (ev) => {
-    let keywords = userInput?.split(",");
+    let keywords = userInput.toLowerCase()?.split(",");
 
     ev.preventDefault();
 
@@ -102,7 +102,8 @@ const InputForm = () => {
         keywordArr: keywords,
         registered: true,
         likes: 0,
-        description: keyDescribe,
+        description: keyDescribe? keyDescribe:"N/A",
+        liked:[],
       };
       setSignedInUser(userObj);
     }

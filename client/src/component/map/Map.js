@@ -23,6 +23,7 @@ import Geocode from "react-geocode";
 /* global google */
 
 const Map = ({ confirmLoc, spot, setSpot, location }) => {
+  
   Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
 
   const { user, isAuthenticated } = useAuth0();
@@ -82,11 +83,7 @@ const Map = ({ confirmLoc, spot, setSpot, location }) => {
     });
   };
 
-  // new google.maps.Marker({
-  //   position:location ,
-  //   title: "Hello World!",
-  // });
-  // console.log(pin);
+ 
   if (!isLoaded) {
     return <Loading />;
   } else {

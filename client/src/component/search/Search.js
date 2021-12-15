@@ -43,6 +43,10 @@ const Search = ({ opened, setOpened }) => {
 
   const [highestLikesCheck, setHighestLikesCheck] = useState(false);
 
+  const [likedFetch, setLikedFetch] = useState(false);
+
+  const [newFetch, setNewFetch] = useState([]);
+
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   });
@@ -71,45 +75,65 @@ const Search = ({ opened, setOpened }) => {
     setRegisteredCheck(!registeredCheck);
   };
 
-  let registeredArr = [];
-  
-  let highestLikes = [];
- 
+
+  useEffect(() => {
+
+    fetch(`/api/${searchInput}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.data[0]) {
+          setSearchResult(data.data);
+        } else {
+          window.alert("not found");
+        }
+      });
+
+  }, [likedFetch]);
 
   const getHighestLikes = () => {
     setHighestLikesCheck(!highestLikesCheck);
   };
 
+  let registeredArr = [];
+
+  let highestLikes = [];
 
   if (registeredCheck === true) {
     registeredArr = searchResult.filter((data) => {
       return data.registered === true;
     });
+    // setRegisteredArr(result)
+
+    // console.log(result)
 
     if (highestLikesCheck === true) {
+      let maxLikes = 0;
+      for (let i = 0; i < registeredArr.length; i++) {
+        let currentMarker = registeredArr[i];
+        if (currentMarker.likes > maxLikes) {
+          maxLikes = currentMarker.likes;
+        }
+      }
       highestLikes = registeredArr.filter((data) => {
-        return Math.max(data.likes);
+        return data.likes === maxLikes;
       });
+
+      // setHighestLikes(likeResult)
     }
   }
 
-
-
-  // if (registeredCheck === true) {
-  //   highestLikes = registeredArr.filter((data) => {
-  //     return Math.max(data.likes);
-  //   });
-
-  //   if (highestLikesCheck === true) {
-  //     highestLikes = registeredArr.filter((data) => {
-  //       return Math.max(data.likes);
-  //     });
-  //   }
-  // }
+  console.log(highestLikes);
 
   if (highestLikesCheck === true && registeredCheck === false) {
+    let maxLikes = 0;
+    for (let i = 0; i < searchResult.length; i++) {
+      let currentMarker = searchResult[i];
+      if (currentMarker.likes > maxLikes) {
+        maxLikes = currentMarker.likes;
+      }
+    }
     highestLikes = searchResult.filter((data) => {
-      return Math.max(data.likes);
+      return data.likes === maxLikes;
     });
   }
 
@@ -173,6 +197,7 @@ const Search = ({ opened, setOpened }) => {
             registeredCheck={registeredCheck}
             highestLikesCheck={highestLikesCheck}
             highestLikes={highestLikes}
+            setLikedFetch={setLikedFetch}
           />
         </Wrapper>
       </>

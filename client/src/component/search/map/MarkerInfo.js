@@ -1,22 +1,36 @@
-import { Marker } from "@react-google-maps/api";
 import React, { useContext, useState, useEffect } from "react";
 import { AiTwotoneLike } from "react-icons/ai";
 import { useAuth0 } from "@auth0/auth0-react";
 
+import { Marker } from "@react-google-maps/api";
 import styled from "styled-components";
 
-const MarkerInfo = ({ detail }) => {
+const MarkerInfo = ({ detail, setDetail, setLikedFetch }) => {
+  
   const [likes, setLikes] = useState(false);
 
-  const [likeNum, setLikeNum] = useState(detail?.likes);
+  const [likeNum, setLikeNum] = useState(detail.likes);
 
   const { user, isAuthenticated } = useAuth0();
 
-  const toggleLike = () => {
+  console.log(detail);
 
+  const toggleLike = () => {
     setLikes(!likes);
 
-    likes ? setLikeNum(detail?.likes) : setLikeNum(detail?.likes + 1);
+    console.log(detail.likes, "likedetail");
+
+    if (likes) {
+
+      setLikeNum(detail.likes);
+      setLikedFetch(false)
+      
+
+    } else {
+      setLikeNum(detail.likes + 1);
+
+      setLikedFetch(true)
+    }
 
     // console.log(likeNum)
     fetch(`/api/likes/${detail.id}`, {
@@ -25,7 +39,7 @@ const MarkerInfo = ({ detail }) => {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({detail}),
+      body: JSON.stringify({ detail }),
       //the keys in frontend has to match the backend
     })
       .then((res) => res.json())
@@ -36,12 +50,8 @@ const MarkerInfo = ({ detail }) => {
         } else {
           window.alert("something went wrong!");
         }
-       });
-
-
+      });
   };
-
-
 
   return (
     <Wrapper>

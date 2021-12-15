@@ -6,7 +6,6 @@ export const SignedInUserContextProvider = ({ children }) => {
   const [signedInUser, setSignedInUser] = useState([]);
 
  
- 
 
   return (
     <SignedInUserContext.Provider value={{ signedInUser, setSignedInUser }}>

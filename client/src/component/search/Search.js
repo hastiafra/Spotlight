@@ -59,6 +59,7 @@ const Search = ({ opened, setOpened }) => {
     ev.preventDefault();
 
     if (searchInput.length > 0) {
+
       fetch(`/api/${searchInput}`)
         .then((res) => res.json())
         .then((data) => {
@@ -68,6 +69,7 @@ const Search = ({ opened, setOpened }) => {
             window.alert("not found");
           }
         });
+
     }
   };
 
@@ -198,6 +200,7 @@ const Search = ({ opened, setOpened }) => {
             highestLikesCheck={highestLikesCheck}
             highestLikes={highestLikes}
             setLikedFetch={setLikedFetch}
+            likedFetch={likedFetch}
           />
         </Wrapper>
       </>

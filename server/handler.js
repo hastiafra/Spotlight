@@ -67,8 +67,8 @@ const searchKey = async (req, res) => {
 
     let guestUser = await db.collection("guestUsers").find(query).toArray();
 
-    console.log(registeredUser, "check");
-    console.log(guestUser, "test");
+    // console.log(registeredUser, "check");
+    // console.log(guestUser, "test");
 
     if (registeredUser !== undefined || guestUser.length !== undefined) {
       return res.status(200).json({
@@ -102,40 +102,54 @@ const updateLikes = async (req, res) => {
     const { likes } = req.body;
 
     const { id } = req.params;
+    
+    const postId = { id };
+
+    const newValue = { likes: Number(likes)};
 
     
-    const clientId = { id };
 
-    const newValue = { likes: Number(likes) };
+    let detailsObj= req.body.detail;
 
-    // console.log(newValue)
+    let userEmail = req.body.email;
 
-    let detailsObj = req.body;
+    let findEmail = {email:userEmail};
 
-    // console.log(clientId, "clientId");
+    
+    let newLiked = { liked: id }
     // console.log(detailsObj, "detail");
     // console.log(likeNum, "likeNum");
+    
+    const registeredUser = await db
+    .collection("SignedinUsers")
+    .updateMany(findEmail, {$push: newLiked });
+    
+    
+    console.log(registeredUser)
 
-    if (detailsObj.registered === "true") {
+
+
+    if (detailsObj?.registered === true ) {
       const registeredUser = await db
         .collection("SignedinUsers")
-        .updateOne(clientId, { $set: newValue });
-        console.log(registeredUser)
+        .updateOne(postId, { $set: newValue });
+     
 
     }
 
-    if (detailsObj.registered === "false") {
+    if (detailsObj?.registered === false) {
       const user = await db
         .collection("guestUsers")
-        .updateOne(clientId, { $set: newValue });
+        .updateOne(postId, { $set: newValue });
     }
 
     res.status(200).json({
       status: 200,
-      data: {id, likes },
+      data: {id, likes},
     });
     client.close();
   } catch (err) {
+    // console.log(err.stack)
     res.status(500).json({ status: "Error", data: req.body, msg: err.stack });
   }
 };

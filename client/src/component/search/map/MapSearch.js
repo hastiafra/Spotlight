@@ -22,7 +22,8 @@ const MapSearch = ({
   registeredCheck,
   highestLikesCheck,
   highestLikes,
-  setLikedFetch
+  setLikedFetch,
+  likedFetch
 }) => {
   // Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
 
@@ -99,10 +100,12 @@ const MapSearch = ({
                 lng: detail.selectedLoc?.lng,
               }}
               shouldFocus={true}
-              onCloseClick={() => setDetail(null)}
+              onCloseClick={() => {setDetail(null) 
+                setLikedFetch(!likedFetch)}}
             >
               <MarkerInfo detail={detail}  setDetail={setDetail}
               setLikedFetch={setLikedFetch}
+              likedFetch={likedFetch}
               />
             </InfoWindow>
           ) : null}
@@ -152,10 +155,13 @@ const MapSearch = ({
                 lng: detail.selectedLoc?.lng,
               }}
               shouldFocus={true}
-              onCloseClick={() => setDetail(null)}
+              onCloseClick={() => {setDetail(null)
+                setLikedFetch(!likedFetch)}
+              }
             >
               <MarkerInfo detail={detail}  setDetail={setDetail}
-              setLikedFetch={setLikedFetch} />
+              setLikedFetch={setLikedFetch}
+              likedFetch={likedFetch} />
             </InfoWindow>
           ) : null}
         </GoogleMap>
@@ -203,10 +209,12 @@ const MapSearch = ({
                 lng: detail.selectedLoc?.lng,
               }}
               shouldFocus={true}
-              onCloseClick={() => setDetail(null)}
+              onCloseClick={() => {setDetail(null)
+                setLikedFetch(!likedFetch)}}
             >
               <MarkerInfo detail={detail} setDetail={setDetail}
-              setLikedFetch={setLikedFetch} />
+              setLikedFetch={setLikedFetch} 
+              likedFetch={likedFetch}/>
             </InfoWindow>
           ) : null}
         </GoogleMap>

@@ -11,6 +11,7 @@ import { Wrapper, Xwrapper, NavMenu, SignIn } from "./style";
 import { RiCloseFill } from "react-icons/ri";
 
 const PhoneMenu = ({ opened, setOpened, search, profile}) => {
+  
   const { isAuthenticated, loginWithRedirect } = useAuth0();
 
   return (

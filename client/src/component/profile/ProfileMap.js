@@ -6,6 +6,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import styled from "styled-components";
 
+import spotMarker from "../../assets/spotMarker.png"
+
 //map
 import {
   GoogleMap,
@@ -16,9 +18,7 @@ import {
 
 import mapStyles from "../map/mapStyles";
 
-import spotMarker from "../../assets/spotMarker.png";
-
-const ProfileMap = () => {
+const ProfileMap = ({historySearchResult}) => {
   const { user, isAuthenticated } = useAuth0();
 
   const { isLoaded } = useLoadScript({
@@ -52,7 +52,25 @@ const ProfileMap = () => {
           }
           options={options}
         >
+        { historySearchResult?.map((item)=>{
+         return(
+           <Marker key={item.id}
+           position={{
+            lat: item["selectedLoc"].lat,
+            lng: item["selectedLoc"].lng,
+          }}
 
+          icon={{
+            url: `${spotMarker}`,
+            scaledSize: new window.google.maps.Size(25, 30),
+            origin: new window.google.maps.Point(0, 0),
+          }}
+           />
+         )
+        })
+
+
+        }
             
         </GoogleMap>
       </Wrapper>

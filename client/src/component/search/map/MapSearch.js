@@ -186,7 +186,7 @@ const MapSearch = ({
           {searchResult.map((item) => {
             return (
               <Marker
-                key={item._id}
+                key={item.id}
                 position={{
                   lat: item["selectedLoc"].lat,
                   lng: item["selectedLoc"].lng,

@@ -8,7 +8,6 @@ const options = {
   useUnifiedTopology: true,
 };
 
-
 // using uuid to create unique id for our customers
 const { v4: uuidv4 } = require("uuid");
 
@@ -19,7 +18,7 @@ const userInput = async (req, res) => {
 
   const { email } = req.body;
 
- const post = {...req.body, id}
+  const post = { ...req.body, id };
 
   try {
     await client.connect();
@@ -51,7 +50,7 @@ const searchKey = async (req, res) => {
 
   try {
     const { searchInput } = req.params;
-    
+
     await client.connect();
 
     const db = client.db("SpotLight");
@@ -102,39 +101,31 @@ const updateLikes = async (req, res) => {
     const { likes } = req.body;
 
     const { id } = req.params;
-    
+
     const postId = { id };
 
-    const newValue = { likes: Number(likes)};
+    const newValue = { likes: Number(likes) };
 
-    
-
-    let detailsObj= req.body.detail;
+    let detailsObj = req.body.detail;
 
     let userEmail = req.body.email;
 
-    let findEmail = {email:userEmail};
+    let findEmail = { email: userEmail };
 
-    
-    let newLiked = { liked: id }
+    let newLiked = { liked: id };
     // console.log(detailsObj, "detail");
     // console.log(likeNum, "likeNum");
-    
+
     const registeredUser = await db
-    .collection("SignedinUsers")
-    .updateMany(findEmail, {$push: newLiked });
-    
-    
-    console.log(registeredUser)
+      .collection("SignedinUsers")
+      .updateMany(findEmail, { $push: newLiked });
 
+    console.log(registeredUser);
 
-
-    if (detailsObj?.registered === true ) {
+    if (detailsObj?.registered === true) {
       const registeredUser = await db
         .collection("SignedinUsers")
         .updateOne(postId, { $set: newValue });
-     
-
     }
 
     if (detailsObj?.registered === false) {
@@ -145,7 +136,7 @@ const updateLikes = async (req, res) => {
 
     res.status(200).json({
       status: 200,
-      data: {id, likes},
+      data: { id, likes },
     });
     client.close();
   } catch (err) {
@@ -154,8 +145,47 @@ const updateLikes = async (req, res) => {
   }
 };
 
+const getRegisteredUser = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+
+  try {
+    const { email } = req.params;
+
+    await client.connect();
+
+    const db = client.db("SpotLight");
+
+    const registeredEmail = { email: email };
+
+    let registeredUser = await db
+      .collection("SignedinUsers")
+      .find(registeredEmail)
+      .toArray();
+
+    if (registeredUser !== undefined) {
+      return res.status(200).json({
+        status: 200,
+        data: registeredUser,
+      });
+    } else {
+      return res.status(400).json({
+        status: 400,
+        msg: "keyword not found",
+      });
+    }
+  } catch (err) {
+    return res.status(400).json({
+      status: 400,
+      msg: err.message,
+    });
+  } finally {
+    client.close();
+  }
+};
+
 module.exports = {
   userInput,
   searchKey,
   updateLikes,
+  getRegisteredUser,
 };

@@ -10,7 +10,7 @@ import { SignedInUserContext } from "../../SignedInUserContext";
 
 
 
-const MarkerInfo = ({ detail, setDetail, setLikedFetch, likedFetch }) => {
+const MarkerInfo = ({ detail}) => {
   
   const [likes, setLikes] = useState(false);
 
